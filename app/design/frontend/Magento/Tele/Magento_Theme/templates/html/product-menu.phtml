@@ -1,0 +1,106 @@
+<?php
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$categoryFactory = $objectManager->get('\Magento\Catalog\Model\CategoryFactory');
+// Get Menu
+$menu = $objectManager->get('\Magento\Theme\Block\Html\Topmenu');
+$_menu = $menu->getHtml('level-top', 'submenu');
+// Get Current Category name
+$currentCategory = $objectManager->get('Magento\Framework\Registry')->registry('current_category');
+
+// get id current category
+$categoryId = $currentCategory->getId();
+$category = $categoryFactory->create()->load($categoryId);
+ 
+$categoryProducts = $category->getProductCollection()
+                             ->addAttributeToSelect('*');                      
+?>
+<div id="box-filter-m">
+    <div class="category-current">
+        <?=  $currentCategory->getName();?>
+    </div>
+    <div class="count-p">
+       <?= count($categoryProducts)?> Item
+    </div>
+    <div id="filter-p">
+        <span>Filter</span>
+    </div>
+</div>
+<div class="block filter categorySidebar" id="layered-filter-block">
+    <h4 class="title-sidaber title-">CATEGORIES</h4>
+    <div id='cssmenu-left'>
+        <ul>
+            <?= $_menu ?>
+        </ul>
+    </div>
+</div>
+<script type="text/javascript">
+    require([ 'jquery', 'jquery/ui'], function($){ 
+        $(document).ready(function($){
+            // check tror link  category
+            
+            if(($("#cssmenu-left li.parent").hasClass("active"))){
+                $("<li class='sub-link'></li>").insertBefore('#cssmenu-left .active .level0');
+            } 
+            if(($("#cssmenu-left li.parent").hasClass("has-active"))){
+                $("<li class='sub-link'></li>").insertBefore('#cssmenu-left .has-active .submenu');
+            } 
+            // add html + or -
+            if(($('#cssmenu-left .level0').hasClass('parent'))){
+                $("<a href='javascript:void(0)' title='' class='parent-child'></a>").insertAfter("#cssmenu-left .parent > a");
+            }
+
+
+            // link active
+            if($('#cssmenu-left .parent').hasClass('active')){
+                $('#cssmenu-left .active > .parent-child').addClass('activeSub');
+            }
+            if(($("#cssmenu-left li.parent").hasClass("has-active"))){
+                $('#cssmenu-left .has-active > .parent-child').addClass('activeSub');
+            }
+            // code + - 
+            $('#cssmenu-left .parent-child').click(function () {
+            if($(this).hasClass('activeSub')){
+                $(this).removeClass('activeSub');
+            }else{
+                console.log(this);
+                $(this).addClass('activeSub');
+            }
+            });
+
+            // $('#cssmenu-left .parent-child').click(function () {
+            // if($(this).hasClass('activeSub')){
+            //     $(this).removeClass('activeSub');
+            // }else{
+            //     console.log(this);
+            //     $(this).addClass('activeSub');
+            // }
+            // });
+
+
+
+            // if($('#cssmenu-left .parent').hasClass('active')){
+            //     $('#cssmenu-left .active > .parent-child').addClass('activeSub');
+            // }
+            // $('.box-child-menu .parent-child').click(function (){
+            //     if($(this).hasClass('activeSub')){
+            //         $(this).removeClass('activeSub');
+            //     }else{
+            //         $('box-child-menu .parent-child').removeClass('activeSub');
+            //         $(this).addClass('activeSub');
+            //     }
+            // });
+
+
+            // code filter click
+            $('#filter-p').click(function(){
+                if($('#layered-filter-block').hasClass('active_filter')){
+                    $('#layered-filter-block').removeClass('active_filter');
+                    $('.page-products .sidebar-main .filter').removeClass('active_filter');
+                } else {
+                    $('#layered-filter-block').addClass('active_filter');
+                    $('.page-products .sidebar-main .filter').addClass('active_filter');
+                }
+             });       
+        });
+    });
+</script>

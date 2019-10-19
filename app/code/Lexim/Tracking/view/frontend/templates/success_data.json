@@ -1,0 +1,143 @@
+{
+  "HighestSeverity": "SUCCESS",
+  "Notifications": {
+    "Severity": "SUCCESS",
+    "Source": "trck",
+    "Code": "0",
+    "Message": "Request was successfully processed.",
+    "LocalizedMessage": "Request was successfully processed."
+  },
+  "Version": {
+    "ServiceId": "trck",
+    "Major": 10,
+    "Intermediate": 0,
+    "Minor": 0
+  },
+  "CompletedTrackDetails": {
+    "HighestSeverity": "SUCCESS",
+    "Notifications": {
+      "Severity": "SUCCESS",
+      "Source": "trck",
+      "Code": "0",
+      "Message": "Request was successfully processed.",
+      "LocalizedMessage": "Request was successfully processed."
+    },
+    "DuplicateWaybill": false,
+    "MoreData": false,
+    "TrackDetailsCount": 0,
+    "TrackDetails": {
+      "Notification": {
+        "Severity": "SUCCESS",
+        "Source": "trck",
+        "Code": "0",
+        "Message": "Request was successfully processed.",
+        "LocalizedMessage": "Request was successfully processed."
+      },
+      "TrackingNumber": "111111111111",
+      "TrackingNumberUniqueIdentifier": "2457835000~111111111111~FX",
+      "StatusDetail": {
+        "CreationTime": "2017-04-01T00:00:00",
+        "Code": "DL",
+        "Description": "Delivered",
+        "Location": {
+          "Residential": false
+        }
+      },
+      "CarrierCode": "FDXE",
+      "OperatingCompanyOrCarrierDescription": "FedEx Express",
+      "PackageSequenceNumber": 0,
+      "PackageCount": 0,
+      "ShipperAddress": {
+        "Residential": false
+      },
+      "ShipTimestamp": "2017-03-24T00:00:00",
+      "DestinationAddress": {
+        "Residential": false
+      },
+      "ActualDeliveryTimestamp": "2017-04-01T10:15:00+03:00",
+      "ActualDeliveryAddress": {
+        "Residential": false
+      },
+      "DeliveryLocationType": "RECEPTIONIST_OR_FRONT_DESK",
+      "DeliveryLocationDescription": "Receptionist\/Front Desk",
+      "DeliveryAttempts": 0,
+      "DeliverySignatureName": "T.EST TEST",
+      "TotalUniqueAddressCountInConsolidation": 0,
+      "NotificationEventsAvailable": "ON_DELIVERY",
+      "DeliveryOptionEligibilityDetails": [
+        {
+          "Option": "INDIRECT_SIGNATURE_RELEASE",
+          "Eligibility": "INELIGIBLE"
+        },
+        {
+          "Option": "REDIRECT_TO_HOLD_AT_LOCATION",
+          "Eligibility": "INELIGIBLE"
+        },
+        {
+          "Option": "REROUTE",
+          "Eligibility": "INELIGIBLE"
+        },
+        {
+          "Option": "RESCHEDULE",
+          "Eligibility": "INELIGIBLE"
+        }
+      ],
+      "Events": [
+        {
+          "Timestamp": "2017-04-01T10:15:00+03:00",
+          "EventType": "DL",
+          "EventDescription": "Delivered",
+          "Address": {
+            "City": "ISTANBUL",
+            "PostalCode": "34303",
+            "CountryCode": "TR",
+            "CountryName": "Turkey",
+            "Residential": false
+          },
+          "ArrivalLocation": "DELIVERY_LOCATION"
+        },
+        {
+          "Timestamp": "2017-04-01T09:52:00+03:00",
+          "EventType": "OD",
+          "EventDescription": "On FedEx vehicle for delivery",
+          "Address": {
+            "City": "ISTANBUL",
+            "PostalCode": "34303",
+            "CountryCode": "TR",
+            "CountryName": "Turkey",
+            "Residential": false
+          },
+          "ArrivalLocation": "VEHICLE"
+        },
+        {
+          "Timestamp": "2017-03-27T09:27:00-04:00",
+          "EventType": "AF",
+          "EventDescription": "At local FedEx facility",
+          "Address": {
+            "City": "MARKHAM",
+            "StateOrProvinceCode": "ON",
+            "PostalCode": "L3R1N1",
+            "CountryCode": "CA",
+            "CountryName": "Canada",
+            "Residential": false
+          },
+          "ArrivalLocation": "FEDEX_FACILITY"
+        },
+        {
+          "Timestamp": "2017-03-24T22:28:00-04:00",
+          "EventType": "AF",
+          "EventDescription": "At local FedEx facility",
+          "Address": {
+            "City": "MARKHAM",
+            "StateOrProvinceCode": "ON",
+            "PostalCode": "L3R1N1",
+            "CountryCode": "CA",
+            "CountryName": "Canada",
+            "Residential": false
+          },
+          "ArrivalLocation": "FEDEX_FACILITY"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,676 @@
+<?php
+$_objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$storeManager = $_objectManager->get('Magento\Store\Model\StoreManagerInterface');
+$currentStore = $storeManager->getStore();
+$baseUrl = $currentStore->getBaseUrl();
+$mediaUrl = $currentStore->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
+$linkUrl = $currentStore->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_LINK);
+
+$sa = $_objectManager->get('Sahy\Banner\Block\Frontend\Banners');
+$_sub1 = $sa->getAllBannerByType($sa::TYPE_SUB_BANNER1);
+$_sub2 = $sa->getAllBannerByType($sa::TYPE_SUB_BANNER2);
+?>
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+</head>
+
+<div class="row">
+    <?php if (isset($_sub1) && count($_sub1) > 0) { ?>
+        <?php $size = count($_sub1); ?>
+        <div id="bannerHS" class="carousel slide" data-ride="carousel">
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner" role="listbox">
+                <?php $i = 1; $Daomang= array_reverse($_sub1); ?>
+                <?php foreach ($Daomang as $bn) { ?>
+                    <div class="item <?= ($i == 1) ? 'active' : '' ?>">
+                    <?php  
+                    if ($bn['details'] == '' && $bn['link'] != '') { ?>
+                         
+                         <a class="open-windown" title="" style="position: absolute;" href="<?= $bn['link'] ?>"><img src="<?= $mediaUrl . $bn['image'] ?>"/></a> 
+                    <?php } else{ ?>
+                        <img src="<?= $mediaUrl . $bn['image'] ?>"/>
+                   <?php  } ?>
+
+                        <?php if ($bn['link'] != '') { ?>
+                            <?php if ($bn['details'] == 'Learn More') { ?>
+                                <div class="box_learn_more">
+                                    <a href="<?= $bn['link'] ?>" class="learn_more_slider"
+                                       target="_blank"><?= $bn['details'] ?></a>
+                                </div>
+                            <?php } else { ?>
+                                <div class="innerHS">
+                                    <a href="<?= $bn['link'] ?>" class="clickHereHS"
+                                       target="_blank"><?= $bn['details'] ?></a>
+                                </div>
+                            <?php }
+                        } ?>
+
+
+                    </div>
+                    <?php $i++; ?>
+                <?php } ?>
+            </div>
+            <!-- Controls -->
+            <a href="#bannerHS" role="button" data-slide="prev">
+                <div class="prevButtonWrap btHomeSlider" aria-hidden="true"><span></span></div>
+            </a>
+            <a href="#bannerHS" role="button" data-slide="next">
+                <div class="nextButtonWrap btHomeSlider" aria-hidden="true"><span></span></div>
+            </a>
+
+            <!-- Indicators -->
+            <ol class="carousel-indicators hidden">
+                <?php $i = 0 ?>
+                <?php foreach ($_sub1 as $bn) { ?>
+                    <li data-target="#bannerHS" data-slide-to="<?= $i ?>" class="<?= ($i == 0) ? 'active' : '' ?>"></li>
+                    <?php $i++; ?>
+                <?php } ?>
+            </ol>
+        </div>
+        <div class="clearfix pad40"></div>
+    <?php } ?>
+</div>
+<?php
+$categoryFactory = $_objectManager->create('Magento\Catalog\Model\ResourceModel\Category\CollectionFactory');
+$topSunCategory = $categoryFactory->create()
+    ->addAttributeToFilter('url_key', 'default-category')
+    ->addAttributeToSelect('*')
+    ->getFirstItem();
+// /Magento\Catalog\Model\Category
+
+$subCats = $topSunCategory->getChildrenCategories();
+
+$arrayOne = [];
+$arrayTwo = [];
+$arrayFour = [];
+$arrayFive = [];
+$arraySix = [];
+$arrayThree = [];
+$i = 0;
+foreach ($subCats as $item) {
+    $i++;
+
+    if ( in_array($i, [1,2]) ) array_push($arrayOne, $item);
+    else if ( in_array($i, [5]) ) array_push($arrayFour, $item);
+    else if ( in_array($i, [6]) ) array_push($arrayFive, $item);
+    else if ( in_array($i, [3,4]) ) array_push($arrayTwo, $item);
+    else array_push($arraySix, $item);
+}
+$arrayThree = array_merge($arrayFive, $arrayFour);
+
+?>
+<div class="container-fuld">
+    <div id="pr-product">
+        <p class="text-first">LUXURY FURNITURE</strong></p>
+        <p class="text-second">Home Design Services</p>
+        <hr style="width: 90px; border-top: 3px solid #EAE3E3; margin: auto;">
+        <div class="row" id="section-pr">
+            <div class="col-md-4 col-sm-4 box-left-category">
+                <?php foreach ($arrayOne as $subCat) { ?>
+                    <div class="item subcat-category">
+                        <a href="<?= $subCat->getUrl(); ?>" title="" class="link-sub">
+                            <img src="<?= $subCat->getImageUrl(); ?>" alt="">
+                        </a>
+                        <div class="box-text-sub">        
+                    <span class="subcat-title">
+                        <a href="<?= $subCat->getUrl(); ?>" title=""><?= $subCat->getName(); ?></a>
+                        <a href="<?= $subCat->getUrl(); ?>" title="" class="read-more">Shop Now</a>
+                    </span>
+                        </div>
+                    </div>
+                <?php } ?>
+            </div>
+            <div class="col-md-4 col-sm-4 box-mid-category">
+                <?php foreach ($arrayTwo as $subCat) { ?>
+                    <div class="item subcat-category">
+                        <a href="<?= $subCat->getUrl(); ?>" title="" class="link-sub">
+                            <img src="<?= $subCat->getImageUrl(); ?>" alt="">
+                        </a>
+                        <div class="box-text-sub">        
+                    <span class="subcat-title">
+                        <a href="<?= $subCat->getUrl(); ?>" title=""><?= $subCat->getName(); ?></a>
+                        <a href="<?= $subCat->getUrl(); ?>" title="" class="read-more">Shop Now</a>
+                    </span>
+                        </div>
+                    </div>
+                <?php } ?>
+            </div>
+            <div class="col-md-4 col-sm-4 box-right-category">
+                <?php foreach ($arrayThree as $subCat) { ?>
+                    <div class="item subcat-category">
+                        <a href="<?= $subCat->getUrl(); ?>" title="" class="link-sub">
+                            <img src="<?= $subCat->getImageUrl(); ?>" alt="">
+                        </a>
+                        <div class="box-text-sub">        
+                    <span class="subcat-title">
+                        <a href="<?= $subCat->getUrl(); ?>" title=""><?= $subCat->getName(); ?></a>
+                        <a href="<?= $subCat->getUrl(); ?>" title="" class="read-more">Shop Now</a>
+                    </span>
+                        </div>
+                    </div>
+                <?php } ?>
+            </div>
+            <div class="col-md-6 col-sm-6 box-made-in-korea">
+                    <div class="item subcat-category">
+                        <a href="/made-in-koreas" title="" class="link-sub">
+                            <img src="<?= $baseUrl ?>/pub/media/wysiwyg/Static_page/teletron-made-in-korea.png">
+                        </a>
+                        <div class="box-text-sub">        
+                    <span class="subcat-title">
+                        <a href="/made-in-koreas" title="">MADE IN KOREA</a>
+                        <a href="/made-in-koreas" title="" class="read-more">Shop Now</a>
+                    </span>
+                        </div>
+                    </div>
+            </div>
+            <div class="col-md-6 col-sm-6 box-made-in-japan">
+                    <div class="item subcat-category">
+                        <a href="/made-in-japans" title="" class="link-sub">
+                            <img src="<?= $baseUrl ?>/pub/media/wysiwyg/Static_page/teletron-made-in-japan.png">
+                        </a>
+                        <div class="box-text-sub">        
+                    <span class="subcat-title">
+                        <a href="/made-in-japans" title="">MADE IN JAPAN</a>
+                        <a href="/made-in-japans" title="" class="read-more">Shop Now</a>
+                    </span>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+<div id="new-product">
+    <p class="text-first">NEW PRODUCTS</p>
+    <hr class="lane-decoration">
+    <div id="full-new-product">
+        <div class="row" id="section-new">
+            <?php // get call price
+            $_helper = $this->helper('Magento\Catalog\Helper\Output');
+                $context = $_objectManager->get('Magento\Framework\App\Http\Context');
+                $isLoggedIn = $context->getValue(\Magento\Customer\Model\Context::CONTEXT_AUTH);
+                $customer_group_current = $context->getValue(\Magento\Customer\Model\Context::CONTEXT_GROUP);
+                $helper = $this->helper("Lof\HidePrice\Helper\Data");
+                $validator = $_objectManager->get('Lof\HidePrice\Model\Validator');
+                $maxWidth = $helper->getConfig('general/max_width');
+                $maxHeight = $helper->getConfig('general/max_height');
+                $minWidth = $helper->getConfig('general/min_width');
+                $minHeight = $helper->getConfig('general/min_height');
+                $connection = $helper->_resource->getConnection();
+                $table = $helper->_resource->getTableName('lof_hideprice_product');
+                // get product new
+            $productCollection = $_objectManager->create('Magento\Catalog\Model\ResourceModel\Product\CollectionFactory');
+            $collection = $productCollection->create()
+                ->addAttributeToSelect('*')
+                ->addFieldToFilter("status", "1")
+                ->addAttributeToFilter('visibility', ["neq" => "1"])
+                ->setOrder('news_from_date', 'desc')
+                ->setPageSize(4)// Limit product
+                ->load();
+            ?>
+
+            <?php foreach ($collection as $_product) {
+                $where = ' entity_id = '.$_product->getId();
+                $select = 'SELECT * FROM ' . $table.' WHERE'.$where;
+                $hideprice = $connection->fetchAll($select);
+                $validate = $validator->validate($_product->getId());
+                $url = $_product->getProductUrl();
+                $name = $_product->getName();
+                ?>
+                 
+                <?php   
+                    $buy_one_get_one = '';
+                    if($_product->getResource()->getAttribute('buy_one_get_one_free')){
+                        $buy_one_get_one = $_product->getResource()->getAttribute('buy_one_get_one_free')->getFrontend()->getValue($_product);
+                }?>
+                <div class="col-md-3 col-sm-6 custom-resize">
+                <?php if ($buy_one_get_one == 'Yes') {?>
+                    <img alt="buy one get one free" class="buy_get_one" src="<?= $baseUrl ?>/pub/media/wysiwyg/IMG_BUY_FREE/buy-one-get-one-free.png">
+                <?php } ?>
+                    
+                    <div class="box-img">
+                        <a href="<?= $url ?>">
+                            <img src="<?= $mediaUrl . "catalog/product" . $_product['image'] ?>" alt="<?= $name ?>">
+                        </a>
+                    </div>
+                    <h4><a href="<?= $url ?>"><?= $name ?></a></h4>
+                    <?php if (!count($hideprice) > 0 ) {?>
+
+                        <?php $hasSpecialPrice = false;
+                        if ($_product->getTypeId() == 'configurable') {
+                            $tmpProduct = $_product->getTypeInstance()->getUsedProducts($_product);
+                            foreach($tmpProduct as $item) {
+                                if ($item) $tmpProduct = $item;
+                                break;
+                            }
+                        } else $tmpProduct = $_product;
+
+                        $singlePrice = $tmpProduct->getPrice();
+                        $specialPrice = $tmpProduct->getSpecialPrice();
+                        if (!is_null($specialPrice)) $hasSpecialPrice = true;
+                        $singlePrice = "$" . number_format($singlePrice, 2);
+                        $specialPrice = "$" . number_format($specialPrice, 2);
+                        ?>
+                            <?php if ($hasSpecialPrice) { ?>
+                                
+                                <span class="special_price">
+                                    <a href="<?= $url  ?>"><?= $specialPrice ?></a>
+                                </span>
+                                <br>
+                                <span class="price-single">
+                                    <a href="<?= $url  ?>"><?= $singlePrice ?></a>
+                                </span>
+                            <?php } else { ?>
+                                <span class="single-price">
+                                    <a href="<?= $url  ?>"><?= $singlePrice ?></a>
+                                </span>
+                            <?php } ?>
+                    <?php } ?>
+                    <?php if ($_product->isSaleable()): 
+                            if (count($hideprice) > 0 || $validate) {
+                            if(count($hideprice) > 0) {
+                                $hideprice = $helper->hideprice->getCollection()->addFieldToFilter('hideprice_id',$hideprice[0]['hideprice_id']);
+                            }elseif($validate) {
+                                $hideprice = $helper->hideprice->getCollection()->addFieldToFilter('hideprice_id',$validate);
+                            }
+                            foreach ($hideprice as $key => $_hideprice) {
+                                $customer_group = json_decode($_hideprice->getCallforpriceCustomergroup(),true);
+                                $store_id = json_decode($_hideprice->getStoreId(),true);
+                                
+                                if($_hideprice->getIsActive() == 1 && (in_array($customer_group_current,$customer_group) == true  || ((in_array(0,$customer_group) ==false && $isLoggedIn ==false) || in_array(0,$customer_group) ==true)) && (in_array($helper->getStoreId(), $store_id) || in_array(0,$store_id ))) {
+                                    echo "<p class='callforprice_text'><a href='#' class='btnfancy_".$_product->getId()." action primary'>".$helper->filter($_hideprice->getCallforpriceText())."</a></p>";
+                                    echo "<div id='hideprice_content_".$_product->getId()."' style='display: none;'>".$helper->filter($_hideprice->getContent())."</div>";
+                                    ?>
+                                     <script type="text/javascript">
+                                        require([
+                                            'jquery',
+                                            'Lof_All/lib/fancybox/jquery.fancybox.pack'
+                                            ], function($){
+                                            jQuery(document).ready(function($) {
+                                                $('.formbuilder-form').prev().remove();
+                                                <?php if(!empty($helper->filter($_hideprice->getContent()))) { ?>
+                                                jQuery(".btnfancy_<?php echo $_product->getId(); ?>").fancybox({
+                                                    'href'   : '#hideprice_content_<?php echo $_product->getId(); ?>',
+                                                    'titleShow'  : false,
+                                                    'transitionIn'  : 'elastic',
+                                                    'transitionOut' : 'elastic',
+                                                    <?php if((int)$minWidth > 0) { echo "'minWidth' : ".$minWidth .","; } ?>
+                                                    <?php if((int)$minHeight > 0) { echo "'minHeight' : ".$minHeight .","; } ?>
+                                                    <?php if((int)$maxWidth > 0) { echo "'maxWidth' : ".$maxWidth .","; } ?>
+                                                    <?php if((int)$maxHeight > 0) { echo "'maxHeight' : ".$maxHeight .","; } ?>
+                                                });
+                                                <?php } ?>
+                                                $('#hideprice_content_<?php echo $_product->getId(); ?>').find('#entity_id').val('<?php echo $_product->getId(); ?>');
+                                                $('#hideprice_content_<?php echo $_product->getId(); ?>').find('#hideprice_id').val('<?php echo $_hideprice->getHidepriceId(); ?>');
+                                            });
+
+                                        });
+                                    </script>
+                                    <?php
+                                }
+                            }
+                        } ?>
+                    <?php endif; ?>
+                    
+                </div>
+
+            <?php } ?>
+        </div>
+    </div>
+</div>
+
+    <div id="special-product">
+        <div class="top-best">
+            <div class="div-box">
+                <span class="text-top change-color">TOP</span>
+            </div>
+            <div class="div-box">
+                <span class="text-best">BEST</span>
+            </div>
+        </div>
+        <?php
+        $topProductCollection = $_objectManager->create('Magento\Catalog\Model\ResourceModel\Product\CollectionFactory');
+        $topCate = $topProductCollection->create()
+            ->addAttributeToSelect('*')
+            ->addFieldToFilter("status", "1")
+            ->addFieldToFilter("top_product", "1")
+            ->addFieldToFilter("type_id", array('neq' => 'virtual'))
+            ->setOrder('created_at', 'DESC')
+            ->setPageSize(4)// Limit product
+            ->load();
+        ?>
+        <?php
+        $bestProductCollection = $_objectManager->create('Magento\Catalog\Model\ResourceModel\Product\CollectionFactory');
+        $bestCate = $bestProductCollection->create()
+            ->addAttributeToSelect('*')
+            ->addFieldToFilter("status", "1")
+            ->addFieldToFilter("best_product", "1")
+            ->addFieldToFilter("type_id", array('neq' => 'virtual'))
+            ->setOrder('created_at', 'DESC')
+            ->setPageSize(4)// Limit product
+            ->load();
+        ?>
+
+        <div class="row section-top open">
+            <?php foreach ($topCate as $_product) { 
+                $where = ' entity_id = '.$_product->getId();
+                $select = 'SELECT * FROM ' . $table.' WHERE'.$where;
+                $hideprice = $connection->fetchAll($select);
+                $validate = $validator->validate($_product->getId());
+                $url = $_product->getProductUrl();
+                $name = $_product->getName();
+                ?>
+                <?php   
+                    $buy_one_get_one = '';
+                    if($_product->getResource()->getAttribute('buy_one_get_one_free')){
+                        $buy_one_get_one = $_product->getResource()->getAttribute('buy_one_get_one_free')->getFrontend()->getValue($_product);
+                }?>
+                <div class="col-md-3 col-sm-6 custom-resize">
+                    <?php if ($buy_one_get_one == 'Yes') {?>
+                        <img alt="buy one get one free" class="buy_get_one" src="<?= $baseUrl ?>/pub/media/wysiwyg/IMG_BUY_FREE/buy-one-get-one-free.png">
+                    <?php } ?>
+                    <div class="box-img">
+                        <a href="<?= $url ?>">
+                            <img src="<?= $mediaUrl . "catalog/product" . $_product['image'] ?>"
+                                 alt="<?= $name ?>">
+                        </a>
+                    </div>
+                    <h4><a href="<?= $url ?>"><?= $name ?></a></h4>
+                    <?php if (!count($hideprice) > 0 ) {?>
+
+                        <?php $hasSpecialPrice = false;
+                        if ($_product->getTypeId() == 'configurable') {
+                            $tmpProduct = $_product->getTypeInstance()->getUsedProducts($_product);
+                            foreach($tmpProduct as $item) {
+                                if ($item) $tmpProduct = $item;
+                                break;
+                            }
+                        } else $tmpProduct = $_product;
+
+                        $singlePrice = $tmpProduct->getPrice();
+                        $specialPrice = $tmpProduct->getSpecialPrice();
+                        if (!is_null($specialPrice)) $hasSpecialPrice = true;
+                        $singlePrice = "$" . number_format($singlePrice, 2);
+                        $specialPrice = "$" . number_format($specialPrice, 2);
+                        ?>
+                            <?php if ($hasSpecialPrice) { ?>
+                                <span class="price-single">
+                                    <a href="<?= $url  ?>"><?= $singlePrice ?></a>
+                                </span>
+                                <span class="special_price">
+                                    <a href="<?= $url  ?>"><?= $specialPrice ?></a>
+                                </span>
+                            <?php } else { ?>
+                                <span class="single-price">
+                                    <a href="<?= $url  ?>"><?= $singlePrice ?></a>
+                                </span>
+                            <?php } ?>
+                        <?php } ?>
+                        <?php if ($_product->isSaleable()): 
+                                if (count($hideprice) > 0 || $validate) {
+                                if(count($hideprice) > 0) {
+                                    $hideprice = $helper->hideprice->getCollection()->addFieldToFilter('hideprice_id',$hideprice[0]['hideprice_id']);
+                                }elseif($validate) {
+                                    $hideprice = $helper->hideprice->getCollection()->addFieldToFilter('hideprice_id',$validate);
+                                }
+                                foreach ($hideprice as $key => $_hideprice) {
+                                    $customer_group = json_decode($_hideprice->getCallforpriceCustomergroup(),true);
+                                    $store_id = json_decode($_hideprice->getStoreId(),true);
+                                    
+                                    if($_hideprice->getIsActive() == 1 && (in_array($customer_group_current,$customer_group) == true  || ((in_array(0,$customer_group) ==false && $isLoggedIn ==false) || in_array(0,$customer_group) ==true)) && (in_array($helper->getStoreId(), $store_id) || in_array(0,$store_id ))) {
+                                        echo "<p class='callforprice_text'><a href='#' class='btnfancy_".$_product->getId()." action primary'>".$helper->filter($_hideprice->getCallforpriceText())."</a></p>";
+                                        echo "<div id='hideprice_content_".$_product->getId()."' style='display: none;'>".$helper->filter($_hideprice->getContent())."</div>";
+                                        ?>
+                                         <script type="text/javascript">
+                                            require([
+                                                'jquery',
+                                                'Lof_All/lib/fancybox/jquery.fancybox.pack'
+                                                ], function($){
+                                                jQuery(document).ready(function($) {
+                                                    $('.formbuilder-form').prev().remove();
+                                                    <?php if(!empty($helper->filter($_hideprice->getContent()))) { ?>
+                                                    jQuery(".btnfancy_<?php echo $_product->getId(); ?>").fancybox({
+                                                        'href'   : '#hideprice_content_<?php echo $_product->getId(); ?>',
+                                                        'titleShow'  : false,
+                                                        'transitionIn'  : 'elastic',
+                                                        'transitionOut' : 'elastic',
+                                                        <?php if((int)$minWidth > 0) { echo "'minWidth' : ".$minWidth .","; } ?>
+                                                        <?php if((int)$minHeight > 0) { echo "'minHeight' : ".$minHeight .","; } ?>
+                                                        <?php if((int)$maxWidth > 0) { echo "'maxWidth' : ".$maxWidth .","; } ?>
+                                                        <?php if((int)$maxHeight > 0) { echo "'maxHeight' : ".$maxHeight .","; } ?>
+                                                    });
+                                                    <?php } ?>
+                                                    $('#hideprice_content_<?php echo $_product->getId(); ?>').find('#entity_id').val('<?php echo $_product->getId(); ?>');
+                                                    $('#hideprice_content_<?php echo $_product->getId(); ?>').find('#hideprice_id').val('<?php echo $_hideprice->getHidepriceId(); ?>');
+                                                });
+
+                                            });
+                                        </script>
+                                        <?php
+                                    }
+                                }
+                            } ?>
+                        <?php endif; ?>
+                </div>
+            <?php } ?>
+        </div>
+        <div class="row section-best">
+            <?php foreach ($bestCate as $_product) { 
+                $where = ' entity_id = '.$_product->getId();
+                $select = 'SELECT * FROM ' . $table.' WHERE'.$where;
+                $hideprice = $connection->fetchAll($select);
+                $validate = $validator->validate($_product->getId());
+                $url = $_product->getProductUrl();
+                $name = $_product->getName();
+                ?>
+                <?php   
+                    $buy_one_get_one = '';
+                    if($_product->getResource()->getAttribute('buy_one_get_one_free')){
+                        $buy_one_get_one = $_product->getResource()->getAttribute('buy_one_get_one_free')->getFrontend()->getValue($_product);
+                }?>
+                <div class="col-md-3 col-sm-6 custom-resize">
+                    <?php if ($buy_one_get_one == 'Yes') {?>
+                        <img alt="buy one get one free" class="buy_get_one" src="<?= $baseUrl ?>/pub/media/wysiwyg/IMG_BUY_FREE/buy-one-get-one-free.png">
+                    <?php } ?>
+                    <div class="box-img">
+                        <a href="<?= $url ?>"><img
+                            src="<?= $mediaUrl . "catalog/product" . $_product['image'] ?>"
+                            alt="<?= $name ?>"></a>
+                    </div>
+                    <h4><a href="<?= $url ?>"><?= $name ?></a></h4>
+                    <?php if (!count($hideprice) > 0 ) {?>
+
+                        <?php $hasSpecialPrice = false;
+                        if ($_product->getTypeId() == 'configurable') {
+                            $tmpProduct = $_product->getTypeInstance()->getUsedProducts($_product);
+                            foreach($tmpProduct as $item) {
+                                if ($item) $tmpProduct = $item;
+                                break;
+                            }
+                        } else $tmpProduct = $_product;
+
+                        $singlePrice = $tmpProduct->getPrice();
+                        $specialPrice = $tmpProduct->getSpecialPrice();
+                        if (!is_null($specialPrice)) $hasSpecialPrice = true;
+                        $singlePrice = "$" . number_format($singlePrice, 2);
+                        $specialPrice = "$" . number_format($specialPrice, 2);
+                        ?>
+                            <?php if ($hasSpecialPrice) { ?>
+                                <span class="price-single">
+                                    <a href="<?= $url  ?>"><?= $singlePrice ?></a>
+                                </span>
+                                <span class="special_price">
+                                    <a href="<?= $url  ?>"><?= $specialPrice ?></a>
+                                </span>
+                            <?php } else { ?>
+                                <span class="single-price">
+                                    <a href="<?= $url  ?>"><?= $singlePrice ?></a>
+                                </span>
+                            <?php } ?>
+                        <?php } ?>
+                        <?php if ($_product->isSaleable()): 
+                                if (count($hideprice) > 0 || $validate) {
+                                if(count($hideprice) > 0) {
+                                    $hideprice = $helper->hideprice->getCollection()->addFieldToFilter('hideprice_id',$hideprice[0]['hideprice_id']);
+                                }elseif($validate) {
+                                    $hideprice = $helper->hideprice->getCollection()->addFieldToFilter('hideprice_id',$validate);
+                                }
+                                foreach ($hideprice as $key => $_hideprice) {
+                                    $customer_group = json_decode($_hideprice->getCallforpriceCustomergroup(),true);
+                                    $store_id = json_decode($_hideprice->getStoreId(),true);
+                                    
+                                    if($_hideprice->getIsActive() == 1 && (in_array($customer_group_current,$customer_group) == true  || ((in_array(0,$customer_group) ==false && $isLoggedIn ==false) || in_array(0,$customer_group) ==true)) && (in_array($helper->getStoreId(), $store_id) || in_array(0,$store_id ))) {
+                                        echo "<p class='callforprice_text'><a href='#' class='btnfancy_".$_product->getId()." action primary'>".$helper->filter($_hideprice->getCallforpriceText())."</a></p>";
+                                        echo "<div id='hideprice_content_".$_product->getId()."' style='display: none;'>".$helper->filter($_hideprice->getContent())."</div>";
+                                        ?>
+                                         <script type="text/javascript">
+                                            require([
+                                                'jquery',
+                                                'Lof_All/lib/fancybox/jquery.fancybox.pack'
+                                                ], function($){
+                                                jQuery(document).ready(function($) {
+                                                    $('.formbuilder-form').prev().remove();
+                                                    <?php if(!empty($helper->filter($_hideprice->getContent()))) { ?>
+                                                    jQuery(".btnfancy_<?php echo $_product->getId(); ?>").fancybox({
+                                                        'href'   : '#hideprice_content_<?php echo $_product->getId(); ?>',
+                                                        'titleShow'  : false,
+                                                        'transitionIn'  : 'elastic',
+                                                        'transitionOut' : 'elastic',
+                                                        <?php if((int)$minWidth > 0) { echo "'minWidth' : ".$minWidth .","; } ?>
+                                                        <?php if((int)$minHeight > 0) { echo "'minHeight' : ".$minHeight .","; } ?>
+                                                        <?php if((int)$maxWidth > 0) { echo "'maxWidth' : ".$maxWidth .","; } ?>
+                                                        <?php if((int)$maxHeight > 0) { echo "'maxHeight' : ".$maxHeight .","; } ?>
+                                                    });
+                                                    <?php } ?>
+                                                    $('#hideprice_content_<?php echo $_product->getId(); ?>').find('#entity_id').val('<?php echo $_product->getId(); ?>');
+                                                    $('#hideprice_content_<?php echo $_product->getId(); ?>').find('#hideprice_id').val('<?php echo $_hideprice->getHidepriceId(); ?>');
+                                                });
+
+                                            });
+                                        </script>
+                                        <?php
+                                    }
+                                }
+                            } ?>
+                        <?php endif; ?>
+                </div>
+            <?php } ?>
+        </div>
+    </div>
+
+
+
+    <div id="section-sale">
+        <p class="text-first">SALE</p>
+        <hr class="lane-decoration">
+    </div>
+    <?php if (isset($_sub2) && count($_sub2) > 0) { ?>
+        <?php $size = count($_sub2); ?>
+        <div class="clearfix"></div>
+        <div id="bannerHS" class="carousel slide" data-ride="carousel">
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner" role="listbox">
+                <?php $i = 1; ?>
+                <?php foreach ($_sub2 as $bn) { ?>
+                    <a target="_blank" href="<?= $bn['link'] ?>">
+                        <div class="item <?= ($i == 1) ? 'active' : '' ?>">
+                            <img src="<?= $mediaUrl . $bn['image'] ?>"/>
+                        </div>
+                    </a>
+                    <?php $i++; ?>
+                <?php } ?>
+            </div>
+            <!-- Controls -->
+            <a href="#bannerHS" role="button" data-slide="prev">
+                <div class="prevButtonWrap btHomeSlider" aria-hidden="true"><span></span></div>
+            </a>
+            <a href="#bannerHS" role="button" data-slide="next">
+                <div class="nextButtonWrap btHomeSlider" aria-hidden="true"><span></span></div>
+            </a>
+            <!-- Indicators -->
+            <ol class="carousel-indicators hidden">
+                <?php $i = 0 ?>
+                <?php foreach ($_sub2 as $bn) { ?>
+                    <li data-target="#bannerHS" data-slide-to="<?= $i ?>" class="<?= ($i == 0) ? 'active' : '' ?>"></li>
+                    <?php $i++; ?>
+                <?php } ?>
+            </ol>
+        </div>
+        <div class="clearfix pad40"></div>
+    <?php } ?>
+    <?php
+    $koreanCat = $_objectManager->create('Magefan\Blog\Model\Category')->load('korean');
+    $korean = $_objectManager->create('Magefan\Blog\Model\ResourceModel\Post\Collection')
+        ->addActiveFilter()->addCategoryFilter($koreanCat)->setOrder('creation_time', 'DESC')->setPageSize(1);
+
+    $chineseCat = $_objectManager->create('Magefan\Blog\Model\Category')->load('chinese');
+    $chinese = $_objectManager->create('Magefan\Blog\Model\ResourceModel\Post\Collection')
+        ->addActiveFilter()->addCategoryFilter($chineseCat)->setOrder('creation_time', 'DESC')->setPageSize(1);
+
+    $vietnamCat = $_objectManager->create('Magefan\Blog\Model\Category')->load('vietnamese');
+    $vietnam = $_objectManager->create('Magefan\Blog\Model\ResourceModel\Post\Collection')
+        ->addActiveFilter()->addCategoryFilter($vietnamCat)->setOrder('creation_time', 'DESC')->setPageSize(1);
+    ?>
+
+
+
+    <div id="promotion-product">
+        <p class="text-first">NEW & PROMOTIONS</strong></p>
+        <hr class="lane-decoration">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 style-padding">
+                <div class="demo-3" id="box-one">
+                    <a href="<?= $baseUrl . 'blog/category/korean' ?>" title="">
+                        <div class="box-1">
+                            <img src="<?= $mediaUrl .'images/section-home/box-1.png' ?>">
+                            <div class="details"></div>
+                            <span class="category-content"><?= $koreanCat->getTitle() ?></span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 style-padding">
+                <div class="demo-3" id="box-two">
+                    <a href="<?= $baseUrl . 'blog/category/chinese' ?>" title="">
+                        <img src="<?= $mediaUrl .'images/section-home/box-2.png' ?>">
+                        <div class="details"></div>
+                        <div class="content-details"><?= $chineseCat->getContent() ?></div>
+                        <span class="category-content"><?= $chineseCat->getTitle() ?></span>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 style-padding">
+                <div class="demo-3" id="box-three">
+                    <a href="<?= $baseUrl . 'blog/category/vietnamese' ?>" title="">
+                            <img src="<?= $mediaUrl .'images/section-home/box-3.png' ?>">
+                        <div class="details"></div>
+                        <span class="category-content"><?= $vietnamCat->getTitle() ?></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+
+
+<script type="text/javascript">
+    require(['jquery', 'jquery/ui'], function ($) {
+        $(document).ready(function ($) {
+            $('#special-product .text-top').click(function () {
+                $('.section-best').removeClass('open');
+                $('.section-top').addClass("open");
+                $('.text-top').addClass("change-color");
+                $('.text-best').removeClass('change-color');
+            });
+            $('#special-product .text-best').click(function () {
+                $('.section-top').removeClass('open');
+                $('.section-best').addClass("open");
+                $('.text-best').addClass('change-color');
+                $('.text-top').removeClass('change-color');
+            });
+        });
+    });
+</script>
+
+

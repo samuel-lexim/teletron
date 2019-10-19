@@ -1,0 +1,22 @@
+<?php 
+   $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+   $category = $objectManager->get('Magento\Framework\Registry')->registry('current_category');
+
+$request = $objectManager->get('Magento\Framework\App\Action\Context')->getRequest();
+if ($request->getFullActionName() == 'catalog_product_view') {
+	$product = $objectManager->get('Magento\Framework\Registry')->registry('current_product'); //get current product
+
+    ?>
+<div class="page-title-wrapper 2">
+    <h1 class="page-title" id="page-title-heading" aria-labelledby="page-title-heading toolbar-amount">
+    	<span class="base" data-ui-id="page-title-wrapper"><?= $title  = $product->getName();?></span>    
+    </h1>
+</div>
+
+<?php } else{ ?>
+<div class="page-title-wrapper 3">
+    <h1 class="page-title" id="page-title-heading" aria-labelledby="page-title-heading toolbar-amount">
+    	<span class="base" data-ui-id="page-title-wrapper"><?= $category->getName(); ?></span>    
+    </h1>
+</div>
+<?php } ?>

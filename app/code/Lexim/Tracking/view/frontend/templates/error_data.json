@@ -1,0 +1,66 @@
+{
+  "HighestSeverity": "SUCCESS",
+  "Notifications": {
+    "Severity": "SUCCESS",
+    "Source": "trck",
+    "Code": "0",
+    "Message": "Request was successfully processed.",
+    "LocalizedMessage": "Request was successfully processed."
+  },
+  "Version": {
+    "ServiceId": "trck",
+    "Major": 10,
+    "Intermediate": 0,
+    "Minor": 0
+  },
+  "CompletedTrackDetails": {
+    "HighestSeverity": "SUCCESS",
+    "Notifications": {
+      "Severity": "SUCCESS",
+      "Source": "trck",
+      "Code": "0",
+      "Message": "Request was successfully processed.",
+      "LocalizedMessage": "Request was successfully processed."
+    },
+    "DuplicateWaybill": false,
+    "MoreData": false,
+    "TrackDetailsCount": 0,
+    "TrackDetails": {
+      "Notification": {
+        "Severity": "ERROR",
+        "Source": "trck",
+        "Code": "9040",
+        "Message": "This tracking number cannot be found. Please check the number or contact the sender.",
+        "LocalizedMessage": "This tracking number cannot be found. Please check the number or contact the sender."
+      },
+      "TrackingNumber": "111111111112",
+      "StatusDetail": {
+        "Location": {
+          "Residential": false
+        }
+      },
+      "PackageSequenceNumber": 0,
+      "PackageCount": 0,
+      "DeliveryAttempts": 0,
+      "TotalUniqueAddressCountInConsolidation": 0,
+      "DeliveryOptionEligibilityDetails": [
+        {
+          "Option": "INDIRECT_SIGNATURE_RELEASE",
+          "Eligibility": "INELIGIBLE"
+        },
+        {
+          "Option": "REDIRECT_TO_HOLD_AT_LOCATION",
+          "Eligibility": "INELIGIBLE"
+        },
+        {
+          "Option": "REROUTE",
+          "Eligibility": "INELIGIBLE"
+        },
+        {
+          "Option": "RESCHEDULE",
+          "Eligibility": "INELIGIBLE"
+        }
+      ]
+    }
+  }
+}
