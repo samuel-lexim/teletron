@@ -1,0 +1,63 @@
+<div class="clearfix pad30"></div>
+
+<div id="trackingContainer">
+    <div id="fedexBox" class="row">
+        <div class="col-xs-8 col-sm-6">
+            <input type="text" id="fedexTrackingId" placeholder="Please insert tracking number"/>
+        </div>
+        <div class="col-xs-4 col-sm-6">
+            <button id="checkFedexId">CHECK</button>
+        </div>
+    </div>
+
+    <div class="clearfix pad30"></div>
+    <div id="trackingResult"></div>
+</div>
+
+
+<script type="text/javascript">
+    require(['jquery', 'jquery/ui'], function ($) {
+        $(document).ready(function ($) {
+            var result = $('#trackingResult');
+
+            $('#checkFedexId').click(function () {
+                var fedexInput = $('#fedexTrackingId');
+                result.html('Loading ...');
+
+                $.ajax({
+                    url: '/tracking/fedex/index',
+                    type: 'post',
+                    data: {id: fedexInput.val()},
+                    cache: false,
+                    success: function (res) {
+                        // Please read error_data.json and success_data.json to see data structure
+                        var rs = JSON.parse(res);
+                        // result.html(rs);
+
+
+                        var trackDetail = false; 
+                        if (typeof(rs) == 'object' && "CompletedTrackDetails" in rs) {
+                            trackDetail = rs.CompletedTrackDetails;
+                            if ("TrackDetails" in trackDetail) trackDetail = rs.CompletedTrackDetails.TrackDetails;
+                            else trackDetail = false;
+                        }
+
+                        var status = (trackDetail && 'StatusDetail' in trackDetail) ? trackDetail.StatusDetail : false;
+                        status = (status && 'Description' in status) ? status.Description : 'ERROR';
+                      
+                        var message = (trackDetail && 'Notification' in trackDetail) ? trackDetail.Notification : false;
+                        message = (message && 'Message' in message) ? message.Message : 
+                        'This tracking number cannot be found. Please check the number or contact the sender.';
+                     
+                        result.html(status + " - " + message);
+                    },
+                    error: function (err) {
+                        console.log("Error in function _createTrackSoapClient() at line 1122. File module-fedex/model/Carrier.php ");
+                        result.html("ERROR!");
+                    }
+                });
+            });
+
+        });
+    });
+</script>

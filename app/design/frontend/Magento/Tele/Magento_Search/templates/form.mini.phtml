@@ -1,0 +1,88 @@
+<?php
+/** @var $block \Magento\Framework\View\Element\Template */
+/** @var $helper \Magento\Search\Helper\Data */
+$helper = $this->helper('Magento\Search\Helper\Data');
+?>
+
+
+<div class="block block-search" id="topSearchWrap">
+    <!-- <div class="block block-title"><strong>Search</strong></div> -->
+    <div id="clickTopSearchIcon"></div>
+
+    <div class="block block-content">
+        <form class="form minisearch" id="search_mini_form" action="<?= $helper->getResultUrl() ?>" method="get">
+            <div class="field search" id="check_search_desk">
+                <div class="control">
+                    <input id="search"
+                           data-mage-init='{"quickSearch":{
+                                "formSelector":"#search_mini_form",
+                                "url":"<?= $block->getUrl('search/ajax/suggest'); ?>",
+                                "destinationSelector":"#search_autocomplete"}
+                           }'
+                           type="text"
+                           name="<?= $helper->getQueryParamName() ?>"
+                           value="<?= $helper->getEscapedQueryText() ?>"
+                           placeholder="<?= __('What are looking for?'); ?>"
+                           class="input-text"
+                           maxlength="<?= $helper->getMaxQueryLength();?>"
+                           role="combobox"
+                           aria-haspopup="false"
+                           aria-autocomplete="both"
+                           autocomplete="off"/>
+                    <div id="search_autocomplete" class="search-autocomplete"></div>
+                    <?= $block->getChildHtml() ?>
+                </div>
+            </div>
+            <div class="actions">
+                <button type="submit"
+                        title="<?= $block->escapeHtml(__('Search')) ?>"
+                        class="action search">
+                    <span><?= __('Search'); ?></span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    require([ 'jquery', 'jquery/ui'], function($){ 
+        $(document).ready(function($) {
+            $('#topSearchWrap #clickTopSearchIcon').click(function(){
+                if ($("#topSearchWrap > .block-content").hasClass("active")){
+
+                    $('#topSearchWrap > .block-content').removeClass('active');
+                    $('#topSearchWrap > .block-content').css('display', 'none');
+                } else{
+                    $('#topSearchWrap > .block-content').addClass('active');
+                    $('#topSearchWrap > .block-content').css('display', 'block');
+                }
+                
+            });
+
+            // click outsite
+            var click_out = 0;
+            var click_in_search = 0;
+            $("#clickTopSearchIcon").mouseenter(function(){
+                click_out = 0;
+            });
+            $("#clickTopSearchIcon").mouseleave(function(){
+                click_out = 1;
+            });
+            // check click input search
+            $("#check_search_desk #search").mouseenter(function(){
+                click_in_search = 1;
+            });
+            $("#check_search_desk #search").mouseleave(function(){
+                click_in_search = 0;
+            });
+            $("html").click(function(){ 
+              if (click_out == 1) {
+                if(click_in_search != 1){
+                    $('#topSearchWrap > .block-content').removeClass('active');
+                    $('#topSearchWrap > .block-content').css('display', 'none');
+                }
+              }
+            });
+
+        }); 
+    });
+</script>

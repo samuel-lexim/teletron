@@ -1,0 +1,10 @@
+<?php
+$_objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$titleC = $_objectManager->create('Magento\Theme\Block\Html\Title');
+$getTitle = $titleC->getPageTitle();
+?>
+<div class="page-title-wrapper" id="custom-title">
+    <h1 class="page-title" id="page-title-heading" aria-labelledby="page-title-heading toolbar-amount">
+    	<span class="base" data-ui-id="page-title-wrapper"><?php echo $getTitle; ?></span>    
+    </h1>
+</div>

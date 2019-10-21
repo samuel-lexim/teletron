@@ -1,0 +1,31 @@
+<!-- MICRODATA -->
+<div itemscope itemtype="http://schema.org/Product">
+  <meta itemprop="name" content="<?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?>" />
+  <div itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
+    <meta itemprop="priceCurrency" content="<?php echo $currency_code = Mage::app()->getStore()->getCurrentCurrencyCode(); ?>">
+	<?php 
+	$specialPrice = $_product->getFinalPrice();
+	$normalPrice = $_product->getPrice();
+	if ($normalPrice != $specialPrice){
+	?>
+	  <meta itemprop="price" content="<?php echo preg_replace('/[^0-9.]+/', '',strip_tags(Mage::helper('core')->currency($_product->getFinalPrice()))); ?>">
+	 <?php
+	}else{
+	?>
+		<meta itemprop="price" content="<?php echo preg_replace('/[^0-9.]+/', '',strip_tags(Mage::helper('core')->currency($_product->getPrice()))); ?>">
+	<?php
+	}
+	?>
+    <?php
+    $microdata_stock = Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product)->getIsInStock();
+    if ($microdata_stock >= 1){
+      $microdata_stock_msg = 'In Stock';
+    }else{
+      $microdata_stock_msg = 'Out of Stock';
+    }
+    ?>
+    <meta itemprop="availability" content="<?php echo $microdata_stock_msg; ?>">
+    <meta itemprop="itemCondition" itemtype="http://schema.org/OfferItemCondition" content="http://schema.org/NewCondition" />
+  </div>
+</div>
+<!-- MICRODATA -->

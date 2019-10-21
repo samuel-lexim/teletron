@@ -1,0 +1,674 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+?>
+<?php
+    $_objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $storeManager = $_objectManager->get('Magento\Store\Model\StoreManagerInterface');
+    $currentStore = $storeManager->getStore();
+    $baseUrl = $currentStore->getBaseUrl();
+    $mediaUrl = $currentStore->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
+    $boxlink = $_objectManager->get('Lam\Linkhome\Block\Frontend\Linkhomes');
+    $arrLink = $boxlink->getAllBannerByType($boxlink::TYPE_SUB_LINK);
+    // var_dump($arrLink);
+?>
+
+<?php // include_once($_SERVER['DOCUMENT_ROOT'].'/pub/static/frontend/Magento/Tele/en_US/css/tele/analyticstracking.php'); ?>
+
+<div id="footer-default" isMobile-data="-1">
+    <div class="col-1150">
+        <div class="row">
+            <div class="col-xs-12 col-sm-3  customer-care">
+                <a href="javascript:void(0);" class="click-ft-item" check-data="0">INFORMATION</a>
+                <ul class="footer links ft-sub-item">
+                    <li class="nav item"><a href="<?= $baseUrl.'about-us'; ?>">About Us</a></li>
+                    <li class="nav item"><a href="<?= $baseUrl.'shipping'; ?>">Shipping Options</a></li>
+                    <li class="nav item"><a href="<?= $baseUrl.'cancellations-returns'; ?>">Cancellations And Returns</a></li>
+                    <li class="nav item"><a href="<?= $baseUrl.'terms-and-conditions'; ?>">Terms and Conditions</a></li>
+                    <li class="nav item"><a href="<?= $baseUrl.'privacy-policy'; ?>">Privacy Policy</a></li>
+                    <li class="nav item"><a href="<?= $baseUrl  ?>brand" title="">Manufacturers</a></li>
+                </ul>
+            </div>
+            <div class="col-xs-12 col-sm-3 customer-care">
+                <a href="javascript:void(0);" class="click-ft-item" check-data="0">CONTACT</a>
+                <ul class="footer links ft-sub-item">
+                    <li class="nav item"><a href="<?= $baseUrl.'contact'; ?>">Contact Us</a></li>
+                    <li class="nav item"><a href="<?= $baseUrl.'store-locator.html'; ?>">Store Location</a></li>
+                    <li class="nav item"><a href="<?= $baseUrl.'teletron-ads'; ?>">News and Promotions</a></li>
+                    <li class="nav item"><a href="<?= $baseUrl.'socialMediaGallery'; ?>">Social Media Gallery</a></li>
+                    <li class="nav item"><a href="<?= $baseUrl.'delivery-tracking'; ?>">Delivery Track</a></li>
+                </ul>
+            </div>
+            <div class="col-xs-12 col-sm-3 customer-care" id="newletterFooter">
+                <a href="javascript:void(0);" class="click-ft-item" check-data="0">MY ACCOUNT</a>
+                <ul class="footer links ft-sub-item">
+                    <li class="nav item"><a href="<?= $baseUrl.'customer/account/login'; ?>">Sign In</a></li>
+                    <li class="nav item"><a href="<?= $baseUrl.'checkout/cart'; ?>">View Cart</a></li>
+                    <li class="nav item"><a href="<?= $baseUrl.'wishlist'; ?>">My Wishlist</a></li>
+                    <li class="nav item"><a href="<?= $baseUrl.'checkout'; ?>">Check Out</a></li>
+                    <li class="nav item"><a href="#">Track my order</a></li>
+                </ul>
+            </div>
+
+            <div class="col-xs-12 col-sm-3 customer-care">
+                <a href="javascript:void(0);" class="click-ft-item" check-data="0">FOLLOW US</a>
+                <ul class="footer links ft-sub-item" id="socia-list">
+                    <li class="icon-twit">
+                        <a href="https://www.facebook.com/TeletronUSA" alt="webchat teletronusa" target="_blank">
+                            <img src="<?= $mediaUrl."images/icon-contact/facebook.png"; ?>" class="title-socia title-socia-hiden"/>
+                            <img src="<?= $mediaUrl."images/icon-contact/facebook.png"; ?>" class="twitter-mb hidden-dt"/>
+                        </a>
+                    </li>
+                    <li class="icon-twit">
+                        <a href="https://twitter.com/teletronusa" alt="webchat teletronusa" target="_blank">
+                            <img src="<?= $mediaUrl."images/icon-contact/twitter.png"; ?>" class="title-socia title-socia-hiden"/>
+                            <img src="<?= $mediaUrl."images/icon-contact/twitter.png"; ?>" class="twitter-mb hidden-dt"/>
+                        </a>
+                    </li>
+                    <li class="icon-twit">
+                        <a href="https://www.instagram.com/teletronusa" alt="webchat teletronusa" target="_blank">
+                            <img src="<?= $mediaUrl."images/icon-contact/instagram.png"; ?>" class="title-socia title-socia-hiden"/>
+                            <img src="<?= $mediaUrl."images/icon-contact/instagram.png"; ?>" class="twitter-mb hidden-dt"/>
+                        </a>
+                    </li>
+                    <li class="icon-twit">
+                        <a href="https://www.youtube.com/channel/UCu_pf1KTc1NyU9nOsrULgqQ" alt="youtube teletronusa" target="_blank">
+                            <img src="<?= $mediaUrl."images/icon-contact/icon-youtube-footer.png"; ?>" class="title-socia title-socia-hiden"/>
+                            <img src="<?= $mediaUrl."images/icon-contact/icon-youtube-footer.png"; ?>" class="twitter-mb hidden-dt"/>
+                        </a>
+                    </li>
+                    <br>
+                    <li class="icon-twit">
+                        <a href="#" alt="webchat teletronusa">
+                            <img src="<?= $mediaUrl."images/icon-contact/webchat.png"; ?>" class="title-socia title-socia-hiden"/>
+                            <img src="<?= $mediaUrl."images/icon-contact/webchat.png"; ?>" class="twitter-mb hidden-dt"/>
+                        </a>
+                        <div class="box-linkSocial">
+                            <div class="three-cornere-right">
+                                <div class="cornere-right"></div>
+
+                            </div>
+                            <div class="three-cornere-left">
+                                <div class="cornere-left"></div>
+                            </div>
+                            <p class="name-linkSocial">teletronusa</p>
+                        </div>
+                    </li>
+                    
+                    <li class="icon-twit">
+                        <a href="#" alt="line: teletron">
+                            <img src="<?= $mediaUrl."images/icon-contact/line.png"; ?>" class="title-socia title-socia-hiden"/>
+                            <img src="<?= $mediaUrl."images/icon-contact/line.png"; ?>" class="twitter-mb hidden-dt"/>
+                        </a>
+                        <div class="box-linkSocial">
+                            <div class="three-cornere-right">
+                                <div class="cornere-right"></div>
+
+                            </div>
+                            <div class="three-cornere-left">
+                                <div class="cornere-left"></div>
+                            </div>
+                            <p class="name-linkSocial">teletron</p>
+                        </div>
+                    </li>
+                    
+                    <li class="icon-twit">
+                        <a href="#" alt="teletronusa 770-5468999">
+                            <img src="<?= $mediaUrl."images/icon-contact/phone.png"; ?>" class="title-socia title-socia-hiden"/>
+                            <img src="<?= $mediaUrl."images/icon-contact/phone.png"; ?>" class="twitter-mb hidden-dt"/>
+                        </a>
+                        <div class="box-linkSocial">
+                            <div class="three-cornere-right">
+                                <div class="cornere-right"></div>
+
+                            </div>
+                            <div class="three-cornere-left">
+                                <div class="cornere-left"></div>
+                            </div>
+                            <p class="name-linkSocial">770-5468999</p>
+                        </div>
+                    </li>
+                    
+                    <li class="icon-twit">
+                        <a href="#" alt="teletron">
+                            <img src="<?= $mediaUrl."images/icon-contact/talk.png"; ?>" class="title-socia title-socia-hiden"/>
+                            <img src="<?= $mediaUrl."images/icon-contact/talk.png"; ?>" class="twitter-mb hidden-dt"/>
+                        </a>
+                        <div class="box-linkSocial">
+                            <div class="three-cornere-right">
+                                <div class="cornere-right"></div>
+
+                            </div>
+                            <div class="three-cornere-left">
+                                <div class="cornere-left"></div>
+                            </div>
+                            <p class="name-linkSocial">teletron</p>
+                        </div>
+                    </li>
+                    
+                </ul>
+            </div>  
+        </div>
+    </div>
+</div>
+<small class="copyright" id="copyright-cus">
+    <span><?php /* @escapeNotVerified */ echo $block->getCopyright() ?></span>
+</small>
+<script type="text/javascript">
+    require([ 'jquery', 'jquery/ui'], function($){ 
+        $(document).ready(function($) {
+
+            if ($(window).width() > 1441) {
+                $("#bannerHS .carousel-inner").css("height" , "659px");
+            }
+            var $window = $(window);
+            function checkWidth() {
+                var windowsize = $window.width();               
+                var isMobile = (windowsize < 768) ? 1 : 0;
+                var currentDevice =  $("#footer-default").attr("isMobile-data");
+                if (currentDevice == "1") {
+                    if (!isMobile) resetFooterSm();
+                } else {
+                    (isMobile) ? resetFooterXs(): resetFooterSm();
+                }   
+                $("#footer-default").attr("isMobile-data", isMobile);               
+            }
+            // Reset status begin mobile
+            function resetFooterXs() {
+                $(".ft-sub-item").css("display", "none");
+                $('.click-ft-item').attr("check-data", "0");
+            }
+             // Reset status begin  # Mobile
+            function resetFooterSm() {
+                $(".ft-sub-item").css("display", "block");
+                $('.click-ft-item').attr("check-data", "0");
+            }
+            // Check width begin first time
+            checkWidth();
+            $(window).resize(checkWidth);
+            $('.click-ft-item').click(function(){  
+                var curWidth = $window.width(); 
+                if (curWidth < 768) {
+                    var check = $(this).attr("check-data");
+                    $(".ft-sub-item").css("display", "none");
+                    if (check == "0") { 
+                        $(this).parent().find('.ft-sub-item').css("display", "block");
+                        $(this).attr("check-data", "1");
+                    } else {
+                        $(this).attr("check-data", "0");
+                    }
+                }
+            });
+            // link new promotion
+            var u = window.location.href;   
+            var a= u.split("/");
+            var contact = a[a.length-1];
+            if (contact == "#contact-us") {
+                jQuery('html, body').animate({
+                    scrollTop: jQuery("#contact-us").offset().top - 500
+                }, 2000);
+            }
+
+            // jquery for menu mobile
+
+               var curWidth = $window.width();
+               if (curWidth <= 767){
+                console.log('gdfgfdgdfg');
+                   if(($(".navigation > ul li").hasClass("parent"))){
+                        $("<li class='dropLeftMenu'></li>").insertBefore('.navigation .level0 .box-child-menu');
+                    } 
+               } 
+           $('.navigation .dropLeftMenu').click(function () {
+            if($(this).hasClass('activeSub')){
+                $(this).removeClass('activeSub');
+                data = "-";
+            }else{
+                $(this).addClass('activeSub');
+                data = "+";
+            }
+            });
+
+           // scroll menu
+           $(window).scroll(function() {    
+                var scroll = $(window).scrollTop();
+                if (scroll >= 100) {
+                    $(".page-header + .nav-sections").addClass("navbar-scroll");
+					 $(".panel").css("display", "none");
+                } else {
+                    $(".page-wrapper .nav-sections").removeClass("navbar-scroll");
+					$(".panel").css("display", "");
+                }
+
+                if (scroll >20) {
+                    $(".page-header").addClass("navbar-scroll");
+                } else {
+                    $(".page-header").removeClass("navbar-scroll");
+                }         
+            });
+            
+            // add vung html
+            function addDivmenu() {
+                $("<div class='show_div_menu'></div>").insertAfter(".page-wrapper .nav-sections");
+                removeDivmenu();
+            }
+            // remove div html 
+            function removeDivmenu() {
+                $(".show_div_menu").click(function(){
+                    $(".show_div_menu").remove();
+                    $('.nav-before-open').removeClass('nav-open');
+                    $('.nav-before-open').removeClass('nav-before-open');
+                });
+            }
+            if (curWidth >= 768 && curWidth <= 1024){
+                // click vung cam
+                $(".page-wrapper .nav-toggle-show").click(function(){
+                    addDivmenu();
+                });
+
+                $('.navigation .level0').click(function () {
+                    $('.navigation .level0').removeClass('activeSub');
+                    if($(this).hasClass('activeSub')){
+                        $(this).removeClass('activeSub');
+                    }else{
+                        $(this).addClass('activeSub');
+                    }
+                });
+            }
+             // click open windown
+            $('.open-windown').click(function (event) {
+                event.preventDefault();
+                window.open($(this).attr("href"), "popupWindow", "width=1208,height=900,scrollbars=yes");
+            });
+
+        }); 
+    });
+</script>
+<div id="category-mobile">
+    <div class="container">
+        <div class="row">
+            <?php 
+            $i = 0; $j = 0;
+            if (isset($arrLink) && count($arrLink) > 0)
+                foreach($arrLink as $keyLink) { 
+                     $i++;$j = $i%2;
+                    if($j == 0) $stringP ="right";
+                    else $stringP ="left";
+                 ?>
+            <div class="col-md-6 col-sm-6 col-xs-6 mobile-p-<?= $stringP; ?>">
+                <div class="box-category-m">
+                    <a href="<?= $keyLink['link']; ?>" title="<?= $keyLink['name']; ?>">
+                        <img src="<?= $mediaUrl.$keyLink['image']; ?>" alt="<?= $keyLink['name']; ?>">
+                        <div class="box-text-m"></div>
+                        <p><?= $keyLink['name']; ?></p>
+                    </a>
+                </div>
+            </div>
+              <?php } ?>
+        </div>
+    </div>
+</div>
+<div id="social-mobile">
+    <div class="title-social">
+    <span>Contact Us Now Via:</span>
+    </div>
+    <div class="img-social">
+        <ul>
+            <li><a href="weixin://dl/chat?teletronusa"><img src="<?= $mediaUrl."images/mobile/webchat.png"; ?>" alt=""></a></li>
+            <li><a href="http://line.me/ti/p/~teletron" ><img src="<?= $mediaUrl."images/mobile/line.png"; ?>" alt=""></a></li>
+            <li><a href="viber://chat?number=+17705468999" data-icon="link" class="external-link"><img src="<?= $mediaUrl."images/mobile/phone.png"; ?>" alt=""></a></li>
+            <li><a href="https://open.kakao.com/o/syuYhax"><img src="<?= $mediaUrl."images/mobile/talk.png"; ?>" alt=""></a></li>
+        </ul>
+    </div>
+</div>
+
+<?php include_once("analyticstracking.php") ?>
+
+<!-- Facebook Pixel Code -->
+
+<script>
+
+    !function(f,b,e,v,n,t,s)
+
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+
+    n.queue=[];t=b.createElement(e);t.async=!0;
+
+    t.src=v;s=b.getElementsByTagName(e)[0];
+
+    s.parentNode.insertBefore(t,s)}(window,document,'script',
+
+    'https://connect.facebook.net/en_US/fbevents.js');
+
+    fbq('init', '987335338072690'); 
+
+    fbq('track', 'PageView');
+
+    </script>
+
+    <noscript>
+
+    <img height="1" width="1"
+
+    src="https://www.facebook.com/tr?id=987335338072690&ev=PageView
+
+    &noscript=1"/>
+
+</noscript>
+
+<!-- End Facebook Pixel Code -->
+
+<!-- Signal Tag -->
+
+<script type="text/javascript"> (function () {
+var tagjs = document.createElement("script");
+var s = document.getElementsByTagName("script")[0]; tagjs.async = true;
+tagjs.src = "//s.btstatic.com/tag.js#site=1PR3l09"; s.parentNode.insertBefore(tagjs, s);
+}());
+</script>
+<noscript>
+<iframe src="//s.thebrighttag.com/iframe?c=1PR3l09" width="1" height="1" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+</noscript>
+
+<!-- End Signal Tag -->
+
+
+<style type="text/css">
+/*
+* ========== CSS Dreamwave Massage Chair ===========
+*/
+.main-container{
+    background-color: #000000;
+    color: #ffffff;
+}
+.main-container div:nth-child(4) {
+    display: none;
+}
+.main-container div:nth-child(1)  .row div[class*=col-lg-].pos-middle,
+.main-container div:nth-child(2)  .row div[class*=col-lg-].pos-middle,
+.main-container div:nth-child(3)  .row div[class*=col-lg-].pos-middle{
+    margin-top: 8%;
+}
+h5:not([class*="fontsize-"]), .h5:not([class*="fontsize-"]) {
+    font-size: 18px;
+}
+h3:not([class*="fontsize-"]), .h3:not([class*="fontsize-"]) {
+    font-size: 24px;
+}
+.row div[class*=col-lg-].pos-middle .uncell, .row div[class*=col-lg-].pos-middle {
+    vertical-align: middle;
+}
+.row div[class*=col-lg-].pos-top, .row div[class*=col-lg-].pos-top .uncell {
+    vertical-align: top;
+}
+.row .uncell.no-block-padding {
+    padding: 0px 0px 0px 0px;
+}
+.row div[class*=col-lg-].align_center > .uncol > .uncoltable > .uncell > .uncont, .row div[class*=col-lg-] .row-inner .align_center > .uncol > .uncoltable > .uncell > .uncont {
+    text-align: center;
+}
+.row .uncell {
+    display: table-cell;
+    position: relative;
+    height: 100%;
+    vertical-align: inherit;
+    border: 0;
+}
+.row .uncoltable {
+    display: table;
+    table-layout: fixed;
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+.row .uncol {
+    display: block;
+    overflow: hidden;
+    position: relative;
+}
+.row .uncoltable {
+    min-height: 0 !important;
+}
+.main-container .row {
+    width: 100%;
+    table-layout: fixed;
+}
+.main-container .row-container .row-parent {
+    padding: 30px 30px 30px 30px;
+}
+.main-container .row-inner {
+    position: relative;
+    display: table;
+    table-layout: fixed;
+    height: 100%;
+    min-width: 100%;
+    width: auto;
+}
+.uncode-single-media .single-wrapper {
+    display: inline-block;
+    width: 100%;
+    position: relative;
+}
+.tmb > .t-inside {
+    position: relative;
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+}
+.tmb .t-entry-visual {
+    position: relative;
+    overflow: hidden;
+    text-align: left;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    -webkit-font-smoothing: antialiased;
+}
+.uncode-single-media .uncode-single-media-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    line-height: 0px;
+}
+.tmb .t-entry-visual img {
+    width: auto;
+    max-height: 100%;
+    text-align: center;
+    margin: 0 auto;
+}
+.main-container .row-container .row-parent .single-internal-gutter .uncont > * {
+    margin-top: 30px;
+}
+.el-text {
+    margin: 18px 0px 0px 0px;
+    clear: both;
+}
+.heading-text.el-text > *:first-child {
+    margin-top: 0 !important;
+    display: inline-block;
+}
+.el-text > * > span {
+    display: block;
+}
+.heading-text.el-text > *:last-child {
+    margin-bottom: 0 !important;
+}
+.heading-text.el-text.hline > *:last-child p {
+    margin: 0;
+    text-align: center;
+}
+.post-content > *:first-child, .post-content > .row-container > .row-parent > *:first-child{
+    margin-top: 0px;
+}
+/*
+* ========== END CSS Dreamwave Massage Chair ===========
+*/
+    .custom-resize a img {
+        width: 100% !important;
+    }
+    #section-new .custom-resize a img {
+    	/*height: 255px; */
+        width: unset !important;
+    }
+    #full-new-product .custom-resize .box-img{
+    	background-color:  #ffffff !important;
+    }
+    .checkout-cart-index .sliderDPWrapper.crosssell {
+        display: none;
+    }
+    .catalog-product-view #product-options-wrapper {
+        margin-left: 10px;
+    }
+    @media (min-width: 768px) {
+        .navbar-scroll #logo-mobile-menu img{
+            width: 67%;
+        }
+    }
+    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+     #promotion-product {
+        padding-bottom: 80px;
+     }
+     .content-details {
+        font-weight: normal;
+     }
+    }
+    .madeinjapan-index-index .sidebar-main, .madeinkorea-index-index .sidebar-main {
+        width: 25%;
+        display: inline-block;
+    }
+    .madeinjapan-index-index #content-sale, .madeinkorea-index-index #content-sale {
+        width: 75%;
+        float: right;
+        padding-top: 40px;
+    }
+    .madeinjapan-index-index .products-grid .product-item:nth-child(4n + 1),
+    .madeinkorea-index-index .products-grid .product-item:nth-child(4n + 1) {
+        margin-left: 0;
+    }
+    .madeinjapan-index-index .products-grid .product-item,
+    .madeinkorea-index-index .products-grid .product-item {
+        width: 33.0%;
+        padding: 10px;
+        margin: 0;
+    }
+    .madeinkorea-index-index .product-item-details .product-item-name > a,
+    .madeinjapan-index-index .product-item-details .product-item-name > a {
+        text-align: center;
+        color: #9a9a9a !important;
+    }
+    .madeinkorea-index-index .product-item-details .special_price,
+    .madeinjapan-index-index .product-item-details .special_price {
+        display: block;
+    }
+    .madeinkorea-index-index .product-item-details .price-final_price,
+    .madeinjapan-index-index .product-item-details .price-final_price,
+    .madeinkorea-index-index .product-item-details,
+    .madeinjapan-index-index .product-item-details {
+        text-align: center;
+    }
+    .madeinkorea-index-index .product-item-info,
+    .madeinjapan-index-index .product-item-info {
+        position: relative;
+    }
+    .madeinkorea-index-index .product-item-info,
+    .madeinjapan-index-index .product-item-info {
+        width: auto;
+    }
+    @media (max-width: 1200px) and (min-width: 1025px){
+        .madeinkorea-index-index .products-grid .product-item,
+        .madeinjapan-index-index .products-grid .product-item {
+            width: 32.9% !important;
+        }
+    }
+    @media (max-width: 1024px) and (min-width: 768px){
+        .madeinkorea-index-index .products-grid .product-item,
+        .madeinjapan-index-index .products-grid .product-item {
+            width: 32.8% !important;
+        }
+    }
+    @media only screen and (max-width: 767px) {
+        #crosssellSlider .carousel-inner .col-xs-6:nth-child(2n + 1) {
+            clear: both;
+        }
+        .madeinkorea-index-index .products-grid .product-item,
+        .madeinjapan-index-index .products-grid .product-item {
+            width: 100% !important;
+        }
+        .madeinkorea-index-index .product-item-info,
+        .madeinjapan-index-index .product-item-info{
+            width: auto;
+        }
+        .madeinkorea-index-index .product-item-photo,
+        .madeinjapan-index-index .product-item-photo{
+            display: inline-block;
+            width: 40%;
+        }
+        .madeinkorea-index-index .product-image-wrapper,
+        .madeinjapan-index-index .product-image-wrapper {
+            display: inline-block;
+        }
+        .madeinkorea-index-index .product-image-wrapper img,
+        .madeinjapan-index-index .product-image-wrapper img {
+            width: 150px;
+        }
+        .madeinkorea-index-index .product-item-details,
+        .madeinjapan-index-index .product-item-details {
+            width: 60%;
+            display: inline-block;
+            float: right;
+            padding-top: 40px;
+        }
+        .madeinkorea-index-index .product-item-details .product-item-name > a,
+        .madeinjapan-index-index .product-item-details .product-item-name > a{
+            font-size: 13px;
+        }
+        .madeinkorea-index-index .sidebar-main,
+        .madeinjapan-index-index .sidebar-main {
+            width: 100% !important;
+            display: block !important;
+        }
+        .madeinkorea-index-index #content-new,
+        .madeinjapan-index-index #content-sale{
+            width: 100% !important;
+            display: block !important;
+            padding-top: 15px !important;
+        }
+        .madeinkorea-index-index .product-item,
+        .madeinjapan-index-index .product-item {
+            width: 49.5% !important;
+            padding: 10px !important;
+            margin: 0 !important;
+        }
+        .madeinkorea-index-index .product-item,
+        .madeinjapan-index-index .product-item {
+            display: inline-block;
+        }
+        .madeinkorea-index-index .active_filter,
+        .madeinjapan-index-index .active_filter {
+            display: block !important;
+        }
+        .madeinkorea-index-index  .sidebar-main .filter,
+        .madeinjapan-index-index  .sidebar-main .filter{
+            display: none;
+        }
+    }
+    .box-made-in-korea, .box-made-in-japan {
+        padding-left: 3px;
+        padding-right: 3px;
+    }
+</style>
+<!--[if IE]>
+<style type="text/css">
+     #promotion-product {
+        padding-bottom: 80px;
+     }
+     .content-details {
+        font-weight: normal;
+     }
+</style>
+<![endif]-->

@@ -1,0 +1,113 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php
+$_objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$storeManager = $_objectManager->get('Magento\Store\Model\StoreManagerInterface');
+$currentStore = $storeManager->getStore();
+$baseUrl = $currentStore->getBaseUrl();
+$mediaUrl = $currentStore->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
+$linkUrl = $currentStore->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_LINK);
+?>
+<form class="form contact"
+      action="<?php /* @escapeNotVerified */ echo $block->getFormAction(); ?>"
+      id="contact-form"
+      onsubmit="return validateForm3()"
+      method="post"
+      data-hasrequired="<?php /* @escapeNotVerified */ echo __('* Required Fields') ?>"
+      data-mage-init='{"validation":{}}'>
+    <fieldset class="fieldset">
+        <legend class="legend"><span><?php /* @escapeNotVerified */ echo __('Write Us') ?></span></legend><br />
+        <div class="field note no-label"><?php /* @escapeNotVerified */ echo __('Jot us a note and we’ll get back to you as quickly as possible.') ?></div>
+        <div class="field name required">
+            <label class="label" for="name"><span><?php /* @escapeNotVerified */ echo __('Name') ?></span></label>
+            <div class="control">
+                <input name="name" id="name" title="<?php /* @escapeNotVerified */ echo __('Name') ?>" value="<?php echo $block->escapeHtml($this->helper('Magento\Contact\Helper\Data')->getPostValue('name') ?: $this->helper('Magento\Contact\Helper\Data')->getUserName()) ?>" class="input-text" type="text" data-validate="{required:true}"/>
+            </div>
+        </div>
+        <div class="field email required">
+            <label class="label" for="email"><span><?php /* @escapeNotVerified */ echo __('Email') ?></span></label>
+            <div class="control">
+                <input name="email" id="email" title="<?php /* @escapeNotVerified */ echo __('Email') ?>" value="<?php echo $block->escapeHtml($this->helper('Magento\Contact\Helper\Data')->getPostValue('email') ?: $this->helper('Magento\Contact\Helper\Data')->getUserEmail()) ?>" class="input-text" type="email" data-validate="{required:true, 'validate-email':true}"/>
+            </div>
+        </div>
+        <div class="field telephone">
+            <label class="label" for="telephone"><span><?php /* @escapeNotVerified */ echo __('Phone Number') ?></span></label>
+            <div class="control">
+                <input name="telephone" id="telephone" title="<?php /* @escapeNotVerified */ echo __('Phone Number') ?>" value="<?php echo $block->escapeHtml($this->helper('Magento\Contact\Helper\Data')->getPostValue('telephone')) ?>" class="input-text" type="text" />
+            </div>
+        </div>
+        <div class="field comment required">
+            <label class="label" for="comment"><span><?php /* @escapeNotVerified */ echo __('What’s on your mind?') ?></span></label>
+            <div class="control">
+                <textarea name="comment" id="comment" title="<?php /* @escapeNotVerified */ echo __('What’s on your mind?') ?>" class="input-text" cols="5" rows="3" data-validate="{required:true}"><?php echo $block->escapeHtml($this->helper('Magento\Contact\Helper\Data')->getPostValue('comment')) ?></textarea>
+            </div>
+        </div>
+        <?php echo $block->getChildHtml('form.additional.info'); ?>
+        <!-- dev hoa -->
+                <!-- <script src='https://www.google.com/recaptcha/api.js'></script>
+                <div class="g-recaptcha" data-sitekey="6LcpaFgUAAAAAFndZL8igZlzSpJ0PXDKIy-XHA3q"  data-callback="recaptchaCallback" data-expired-callback="recaptchaExpired" style="transform:scale(0.98);-webkit-transform:scale(0.98);transform-origin:0 0;-webkit-transform-origin:0 0; margin-top: 30px;"></div>
+                <input type="hidden" name="recaptcha" data-rule-recaptcha="true">
+            
+                <script type="text/javascript">
+                    function validateForm3() {   
+                        var recaptcha = document.forms["contact-form"]["g-recaptcha-response"].value;
+                        if (recaptcha == "") {
+                            alert("Please fill reCAPTCHA");
+                            return false;
+                        }
+                    }
+                </script> -->
+                <!-- End dev hoa -->
+    </fieldset>
+    <div class="row" id="link-social-contact">
+        <div class="col-md-3 col-xs-3 box-social-contact">
+            <div class="box-img-text">
+                <img src="<?= $mediaUrl."images/icon-contact/webchat.png"; ?>" alt="">
+                <div class="box-text">
+                    teletronusa
+                </div>
+            </div>  
+        </div>
+        <div class="col-md-3 col-xs-3 box-social-contact">
+            <div class="box-img-text">
+                <img src="<?= $mediaUrl."images/icon-contact/line.png"; ?>" alt="">
+                <div class="box-text">
+                    teletron
+                </div>
+            </div>  
+        </div>
+        <div class="col-md-3 col-xs-3 box-social-contact">
+            <div class="box-img-text">
+                <img src="<?= $mediaUrl."images/icon-contact/phone.png"; ?>" alt="">
+                <div class="box-text">
+                    770-5468999
+                </div>
+            </div>  
+        </div>
+        <div class="col-md-3 col-xs-3 box-social-contact">
+            <div class="box-img-text">
+                <img src="<?= $mediaUrl."images/icon-contact/talk.png"; ?>" alt="">
+                <div class="box-text">
+                    teletron
+                </div>
+            </div>  
+        </div>
+    </div>
+    <div class="col-md-12" id="submit-contact">
+        <div class="actions-toolbar">
+            <div class="primary">
+                <input type="hidden" name="hideit" id="hideit" value="" />
+                <button type="submit" title="<?php /* @escapeNotVerified */ echo __('Submit') ?>" class="action submit primary">
+                    <span><?php /* @escapeNotVerified */ echo __('Submit') ?></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</form>

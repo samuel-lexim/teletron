@@ -1,0 +1,244 @@
+<?php
+$_objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$storeManager = $_objectManager->get('Magento\Store\Model\StoreManagerInterface');
+$currentStore = $storeManager->getStore();
+$baseUrl = $currentStore->getBaseUrl();
+$mediaUrl = $currentStore->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);    
+
+$categoryFactory = $_objectManager->get('\Magento\Catalog\Model\CategoryFactory');
+// Get Menu
+$menu = $_objectManager->get('\Magento\Theme\Block\Html\Topmenu');
+$_menu = $menu->getHtml('level-top', 'submenu');
+// Get Current Category name
+     
+?>
+<?php // get call price
+            $_helper = $this->helper('Magento\Catalog\Helper\Output');
+                $context = $_objectManager->get('Magento\Framework\App\Http\Context');
+                $isLoggedIn = $context->getValue(\Magento\Customer\Model\Context::CONTEXT_AUTH);
+                $customer_group_current = $context->getValue(\Magento\Customer\Model\Context::CONTEXT_GROUP);
+                $helper = $this->helper("Lof\HidePrice\Helper\Data");
+                $validator = $_objectManager->get('Lof\HidePrice\Model\Validator');
+                $maxWidth = $helper->getConfig('general/max_width');
+                $maxHeight = $helper->getConfig('general/max_height');
+                $minWidth = $helper->getConfig('general/min_width');
+                $minHeight = $helper->getConfig('general/min_height');
+                $connection = $helper->_resource->getConnection();
+                $table = $helper->_resource->getTableName('lof_hideprice_product');
+                // get product new
+            $topProductCollection = $_objectManager->create('Magento\Catalog\Model\ResourceModel\Product\CollectionFactory');
+            $saleCate = $topProductCollection->create()
+                ->addAttributeToSelect('*')
+                ->addFieldToFilter("status", "1")
+                ->addFieldToFilter("made_in_korea", "1")
+                ->addFieldToFilter("type_id", array('neq' => 'virtual'))
+                ->setOrder('created_at', 'DESC')
+                ->setPageSize(30)// Limit product
+                ->load();
+        ?>
+<div id="box-filter-m">
+    <div class="category-current">
+        MADE IN KOREA
+    </div>
+    <div class="count-p">
+      <?= count($saleCate); ?>  Item
+    </div>
+    <div id="filter-p">
+        <span>Filter</span>
+    </div>
+</div>
+<div class="sidebar sidebar-main">
+    <div class="block filter categorySidebar" id="layered-filter-block">
+        <h4 class="title-sidaber title-">CATEGORIES</h4>
+        <div id='cssmenu-left'>
+            <ul>
+            <?= $_menu ?>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="products wrapper grid products-grid" id="content-sale">
+    <ol class="products list items product-items">
+    <?php foreach ($saleCate as $_product) {
+        $where = ' entity_id = '.$_product->getId();
+        $select = 'SELECT * FROM ' . $table.' WHERE'.$where;
+        $hideprice = $connection->fetchAll($select);
+        $validate = $validator->validate($_product->getId());
+        $url = $_product->getProductUrl();
+        $name = $_product->getName();
+            ?>
+            <?php   
+                $buy_one_get_one = '';
+                if($_product->getResource()->getAttribute('buy_one_get_one_free')){
+                    $buy_one_get_one = $_product->getResource()->getAttribute('buy_one_get_one_free')->getFrontend()->getValue($_product);
+            }?>
+        <li class="item product product-item">                
+            <div class="product-item-info" data-container="product-grid">
+            <a class="product photo product-item-photo" href="<?= $url ?>">
+                <?php if ($buy_one_get_one == 'Yes') {?>
+                    <img alt="buy one get one free" class="buy_get_one_list" src="<?= $baseUrl ?>/pub/media/wysiwyg/IMG_BUY_FREE/buy-one-get-one-free.png">
+                <?php } ?>
+            <span class="product-image-container">
+            <span class="product-image-wrapper" style="padding-bottom: 100%;">
+                <img src="<?= $mediaUrl ."catalog/product". $_product['image'] ?>" alt="<?= $_product->getName()?>">
+            </span>
+            </span>
+            </a>
+            <div class="product details product-item-details">
+                <strong class="product name product-item-name">
+                <a class="product-item-link" href="<?= $url ?>">
+                <?= $_product->getName()?>        </a>
+                </strong>
+                <?php if (!count($hideprice) > 0 ) {?>
+                <?php
+                        $hasSpecialPrice = false;
+
+                        if ($_product->getTypeId() == 'configurable') {
+                            $tmpProduct = $_product->getTypeInstance()->getUsedProducts($_product);
+                            foreach($tmpProduct as $item) {
+                                if ($item) $tmpProduct = $item;
+                                break;
+                            }
+                        } else $tmpProduct = $_product;
+
+                        $singlePrice = $tmpProduct->getPrice();
+                        $specialPrice = $tmpProduct->getSpecialPrice();
+                        if (!is_null($specialPrice)) $hasSpecialPrice = true;
+                        $singlePrice = "$" . number_format($singlePrice, 2);
+                        $specialPrice = "$" . number_format($specialPrice, 2);
+                        ?>
+                <?php if ($hasSpecialPrice) { ?>
+                            <span class="special_price">
+                                <a href="<?= $url  ?>"><?= $specialPrice ?></a>
+                            </span>
+                            <span class="price-single">
+                                <a href="<?= $url  ?>"><?= $singlePrice ?></a>
+                            </span>
+                        <?php } else { ?>
+                            <span class="single-price">
+                                <a href="<?= $url  ?>"><?= $singlePrice ?></a>
+                            </span>
+                        <?php } ?>
+            <?php } ?>
+            <?php $show_price = $_product->getIn_store_only_price();
+
+                        if(!is_null($show_price)){
+                        if (count($hideprice) > 0 || $validate) {
+                                            if(count($hideprice) > 0) { ?>
+                        <div class="price-box price-final_price">
+                            <span class="price-container price-final_price tax weee">
+                                <span id="product-price-128" class="price-wrapper ">
+                                <span class="price">$<?=  $show_price ?>.00</span>    </span>
+                                </span>
+
+                        </div>
+                        <?php  }}} ?>
+            <?php if ($_product->isSaleable()): 
+                            if (count($hideprice) > 0 || $validate) {
+                            if(count($hideprice) > 0) {
+                                $hideprice = $helper->hideprice->getCollection()->addFieldToFilter('hideprice_id',$hideprice[0]['hideprice_id']);
+                            }elseif($validate) {
+                                $hideprice = $helper->hideprice->getCollection()->addFieldToFilter('hideprice_id',$validate);
+                            }
+                            foreach ($hideprice as $key => $_hideprice) {
+                                $customer_group = json_decode($_hideprice->getCallforpriceCustomergroup(),true);
+                                $store_id = json_decode($_hideprice->getStoreId(),true);
+                                
+                                if($_hideprice->getIsActive() == 1 && (in_array($customer_group_current,$customer_group) == true  || ((in_array(0,$customer_group) ==false && $isLoggedIn ==false) || in_array(0,$customer_group) ==true)) && (in_array($helper->getStoreId(), $store_id) || in_array(0,$store_id ))) {
+                                    $check_text = $helper->filter($_hideprice->getCallforpriceText());
+                                    if($check_text=="In Store Only"){
+                                                        $check_text="hiden_Store_Only";
+                                                    }else{
+                                                        echo "<p class='callforprice_text'><a href='#' class='btnfancy_".$_product->getId()." action primary'>".$check_text."</a></p>";
+                                                    }
+                                 
+                                    echo "<div id='hideprice_content_".$_product->getId()."' style='display: none;'>".$helper->filter($_hideprice->getContent())."</div>";
+                                    ?>
+                                     <script type="text/javascript">
+                                        require([
+                                            'jquery',
+                                            'Lof_All/lib/fancybox/jquery.fancybox.pack'
+                                            ], function($){
+                                            jQuery(document).ready(function($) {
+                                                $('.formbuilder-form').prev().remove();
+                                                <?php if(!empty($helper->filter($_hideprice->getContent()))) { ?>
+                                                jQuery(".btnfancy_<?php echo $_product->getId(); ?>").fancybox({
+                                                    'href'   : '#hideprice_content_<?php echo $_product->getId(); ?>',
+                                                    'titleShow'  : false,
+                                                    'transitionIn'  : 'elastic',
+                                                    'transitionOut' : 'elastic',
+                                                    <?php if((int)$minWidth > 0) { echo "'minWidth' : ".$minWidth .","; } ?>
+                                                    <?php if((int)$minHeight > 0) { echo "'minHeight' : ".$minHeight .","; } ?>
+                                                    <?php if((int)$maxWidth > 0) { echo "'maxWidth' : ".$maxWidth .","; } ?>
+                                                    <?php if((int)$maxHeight > 0) { echo "'maxHeight' : ".$maxHeight .","; } ?>
+                                                });
+                                                <?php } ?>
+                                                $('#hideprice_content_<?php echo $_product->getId(); ?>').find('#entity_id').val('<?php echo $_product->getId(); ?>');
+                                                $('#hideprice_content_<?php echo $_product->getId(); ?>').find('#hideprice_id').val('<?php echo $_hideprice->getHidepriceId(); ?>');
+                                            });
+
+                                        });
+                                    </script>
+                                    <?php
+                                }
+                            }
+                        } ?>
+                    <?php endif; ?>
+            <div class="product-item-inner hidden">
+            <div class="product actions product-item-actions">
+            </div>
+            </div>
+            </div>
+            </div>
+        </li> 
+         <?php } ?>                   
+    </ol>
+</div>
+
+<script type="text/javascript">
+    require([ 'jquery', 'jquery/ui'], function($){ 
+        $(document).ready(function($){
+            // check tror link  category
+            
+            if(($("#cssmenu-left li.parent").hasClass("active"))){
+                $("<li class='sub-link'></li>").insertBefore('#cssmenu-left .active .level0');
+            } 
+            if(($("#cssmenu-left li.parent").hasClass("has-active"))){
+                $("<li class='sub-link'></li>").insertBefore('#cssmenu-left .has-active .submenu');
+            } 
+            // add html + or -
+            if(($('#cssmenu-left .level0').hasClass('parent'))){
+                $("<a href='javascript:void(0)' title='' class='parent-child'></a>").insertAfter("#cssmenu-left .parent > a");
+            }
+
+
+            // link active
+            if($('#cssmenu-left .parent').hasClass('active')){
+                $('#cssmenu-left .active > .parent-child').addClass('activeSub');
+            }
+            if(($("#cssmenu-left li.parent").hasClass("has-active"))){
+                $('#cssmenu-left .has-active > .parent-child').addClass('activeSub');
+            }
+            // code + - 
+            $('#cssmenu-left .parent-child').click(function () {
+            if($(this).hasClass('activeSub')){
+                $(this).removeClass('activeSub');
+            }else{
+                console.log(this);
+                $(this).addClass('activeSub');
+            }
+            });
+
+            // code filter click
+            $('#filter-p').click(function(){
+                if($('#layered-filter-block').hasClass('active_filter')){
+                    $('#layered-filter-block').removeClass('active_filter');
+                    $('.page-products .sidebar-main .filter').removeClass('active_filter');
+                } else {
+                    $('#layered-filter-block').addClass('active_filter');
+                    $('.page-products .sidebar-main .filter').addClass('active_filter');
+                }
+             });       
+        });
+    });
+</script>

@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Backend/etc/menu.xsd">
+    <menu>
+        <add id="lam::base" title="Link Home" module="Lam_Linkhome" sortOrder="36" resource="Lam_Linkhome::sample"/>
+        <add id="lam_linkhome::banner" title="Link Home CMS" module="Lam_Linkhome" sortOrder="10" parent="lam::base" action="lam_linkhome/items/" resource="Lam_Linkhome::items"/>
+    </menu>
+</config>
