@@ -1,0 +1,260 @@
+<html class="no-js">
+  <head>
+    <meta charset="utf-8">
+    <title>Teletron Delivery Truck Locator</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <script src="http://cdn.pubnub.com/pubnub-3.7.1.min.js"></script>
+    <script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.4/mapbox.js'></script>
+    <!-- <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"> -->
+    <link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.4/mapbox.css' rel='stylesheet' />
+    <style>
+      html, body, #map {
+        height: 700px;
+        margin: 0px;
+        padding: 0px
+      }
+    </style>
+
+  </head>
+
+<body>
+    <div class="container" id="section-delivery">
+        <div class="row">
+          <div class="col-md-12 delivery-title">
+            <div class="col-md-6 col-sm-12 delivery-title-truck">
+              <span>Delivery Track Locator</span>
+            </div>
+            <div class="col-md-3 col-sm-6 delivery-title-truck">
+              <div class="box-delivery">
+                <a href="#" target="_blank" class="link-download">Download Store App</a>   
+                <hr class="lane_delivery">  
+              </div>
+                       
+            </div>
+            <div class="col-md-3 col-sm-6 delivery-title-truck">
+              <a href="http://35.167.27.164/pub/media/images/mobile/app-debug.apk" target="_blank" class="link-download">Download Driver App</a>
+              <hr class="lane_delivery"> 
+            </div>
+        </div>
+    </div>
+    </div>
+  
+  
+    <div class="container"></div>
+    <div id="map"></div>
+
+  <script>
+    var lat = null;
+    var lng = null;
+    var viewLat=34;
+    var viewLng=-118;
+    pubs();
+
+	function updateMap(lat, lng, regionId, deviceId){
+		 if(regionId == "california"){ 
+          var myIcon = L.icon({
+            iconUrl: '/pub/media/images/mobile/truck_california.png',
+            iconRetinaUrl: '/pub/media/images/mobile/truck_california.png',
+            iconSize: [75, 36],
+            //iconAnchor: [-10, 62],
+            popupAnchor: [-3, -15],
+           // shadowUrl: 'ttruck.png',
+            //shadowRetinaUrl: 'my-icon-shadow@2x.png',
+            shadowSize: [200, 132],
+            shadowAnchor: [22, 94]
+          });
+        }else if(regionId == "texas"){
+          var myIcon = L.icon({
+            iconUrl: '/pub/media/images/mobile/truck_texas.png',
+            iconRetinaUrl: '/pub/media/images/mobile/truck_texas.png',
+            iconSize: [75, 36],
+            //iconAnchor: [-10, 62],
+            popupAnchor: [-3, -15],
+            //shadowUrl: 'ttruck.png',
+            //shadowRetinaUrl: 'my-icon-shadow@2x.png',
+            shadowSize: [200, 132],
+            shadowAnchor: [22, 94]
+          });
+        }else if(regionId == "georgia"){
+          var myIcon = L.icon({
+            iconUrl: '/pub/media/images/mobile/truck_georgia.png',
+            iconRetinaUrl: '/pub/media/images/mobile/truck_georgia.png',
+            iconSize: [75, 36],
+            //iconAnchor: [-10, 62],
+            popupAnchor: [-3, -15],
+            //shadowUrl: 'ttruck.png',
+            //shadowRetinaUrl: 'my-icon-shadow@2x.png',
+            shadowSize: [200, 132],
+            shadowAnchor: [22, 94]
+          });
+        }else if(regionId == "virginia"){
+          var myIcon = L.icon({
+            iconUrl: '/pub/media/images/mobile/truck_virginia.png',
+            iconRetinaUrl: '/pub/media/images/mobile/truck_virginia.png',
+            iconSize: [75, 36],
+            //iconAnchor: [-10, 62],
+            popupAnchor: [-3, -15],
+            //shadowUrl: 'ttruck.png',
+            //shadowRetinaUrl: 'my-icon-shadow@2x.png',
+            shadowSize: [200, 132],
+            shadowAnchor: [22, 94]
+        });
+    }
+    if (typeof markers[deviceId] == 'undefined'){
+      //markers[deviceId] = L.marker([lat,lng]);
+      markers[deviceId] = L.marker([lat,lng], {icon: myIcon}).bindPopup('<p>This Truck is : <strong>'+deviceId+'</strong></p>').addTo(map);
+      line_points[deviceId]=[[lat,lng]]; 
+      
+      //Set view when new marker is added
+      var tempLat = (viewLat+lat)/2;
+        var tempLng = (viewLng+lng)/2;
+        if (Math.abs(tempLat - viewLat) > 0.01 || Math.abs(tempLng - viewLng) > 0.01){
+          viewLat = tempLat;
+          viewLng = tempLng;
+          map.setView([viewLat, viewLng],12);
+        }
+    }
+	line_points[deviceId].push([lat,lng]); 
+    markers[deviceId].setLatLng(L.latLng(lat, lng));
+    polylines[deviceId] = L.polyline(line_points[deviceId],polyline_options[deviceId]).addTo(map);
+	}
+	
+    function pubs() {
+      pubnub = PUBNUB.init({
+        publish_key: 'pub-c-e6c73b7b-37a9-4d60-835e-83c4e4b9a830',
+        subscribe_key: 'sub-c-1d440f7c-0b02-11e6-a9bb-02ee2ddab7fe'
+      })
+	  
+	  pubnub.history(
+		{
+        channel: "leximit123",
+        reverse: true, // Setting to true will traverse the time line in reverse starting with the oldest message first.
+        count: 100, // how many items to fetch
+		},
+		function (response) {
+        // handle status, response
+		console.log(response);
+		if (response != undefined && response[0].length > 0) {
+                // display each of the returned messages in browser console
+                for (var i in response[0]) {
+					if(typeof response[0][i]['lat'] != "undefined"){
+						console.log(response[0][i]['lat']);
+						console.log(response[0][i]);
+						updateMap(response[0][i]['lat'],response[0][i]['lng'],response[0][i]['checkedString'].toLowerCase(),response[0][i]['carname']);
+					}
+					
+                }
+		}
+		})
+		
+      pubnub.subscribe({
+        channel: "leximit123",
+        message: function(message, channel) {
+          console.log(channel);
+          console.log(message);
+          lat = message['lat'];
+          lng = message['lng'];
+          deviceId = message['carname'];
+          regionId = message['checkedString'];
+          //map.setView([lat, lng]);
+         // map_line.addLatLng([lat,lng]);
+        if(regionId == "california"){ 
+          var myIcon = L.icon({
+            iconUrl: '/pub/media/images/mobile/truck_california.png',
+            iconRetinaUrl: '/pub/media/images/mobile/truck_california.png',
+            iconSize: [75, 36],
+            //iconAnchor: [-10, 62],
+            popupAnchor: [-3, -15],
+           // shadowUrl: 'ttruck.png',
+            //shadowRetinaUrl: 'my-icon-shadow@2x.png',
+            shadowSize: [200, 132],
+            shadowAnchor: [22, 94]
+          });
+        }else if(regionId == "texas"){
+          var myIcon = L.icon({
+            iconUrl: '/pub/media/images/mobile/truck_texas.png',
+            iconRetinaUrl: '/pub/media/images/mobile/truck_texas.png',
+            iconSize: [75, 36],
+            //iconAnchor: [-10, 62],
+            popupAnchor: [-3, -15],
+            //shadowUrl: 'ttruck.png',
+            //shadowRetinaUrl: 'my-icon-shadow@2x.png',
+            shadowSize: [200, 132],
+            shadowAnchor: [22, 94]
+          });
+        }else if(regionId == "georgia"){
+          var myIcon = L.icon({
+            iconUrl: '/pub/media/images/mobile/truck_georgia.png',
+            iconRetinaUrl: '/pub/media/images/mobile/truck_georgia.png',
+            iconSize: [75, 36],
+            //iconAnchor: [-10, 62],
+            popupAnchor: [-3, -15],
+            //shadowUrl: 'ttruck.png',
+            //shadowRetinaUrl: 'my-icon-shadow@2x.png',
+            shadowSize: [200, 132],
+            shadowAnchor: [22, 94]
+          });
+        }else if(regionId == "virginia"){
+          var myIcon = L.icon({
+            iconUrl: '/pub/media/images/mobile/truck_virginia.png',
+            iconRetinaUrl: '/pub/media/images/mobile/truck_virginia.png',
+            iconSize: [75, 36],
+            //iconAnchor: [-10, 62],
+            popupAnchor: [-3, -15],
+            //shadowUrl: 'ttruck.png',
+            //shadowRetinaUrl: 'my-icon-shadow@2x.png',
+            shadowSize: [200, 132],
+            shadowAnchor: [22, 94]
+        });
+    }
+    if (typeof markers[deviceId] == 'undefined'){
+      //markers[deviceId] = L.marker([lat,lng]);
+      markers[deviceId] = L.marker([lat,lng], {icon: myIcon}).bindPopup('<p>This Truck is : <strong>'+deviceId+'</strong></p>').addTo(map);
+      line_points[deviceId]=[[lat,lng]]; 
+      
+      //Set view when new marker is added
+      var tempLat = (viewLat+lat)/2;
+        var tempLng = (viewLng+lng)/2;
+        if (Math.abs(tempLat - viewLat) > 0.01 || Math.abs(tempLng - viewLng) > 0.01){
+          viewLat = tempLat;
+          viewLng = tempLng;
+          map.setView([viewLat, viewLng],12);
+        }
+    }
+
+    line_points[deviceId].push([lat,lng]); 
+    markers[deviceId].setLatLng(L.latLng(lat, lng));
+    polylines[deviceId] = L.polyline(line_points[deviceId],polyline_options[deviceId]).addTo(map);
+       },
+        connect: function() {console.log("pubnub connected")}
+      })
+    }
+
+    //allow pubs to see map_line polyline
+    var line_points = [];
+    var map;
+    var markers = [];
+    var polylines = [];
+    var count = 0;
+    var polyline_options = [{ color: '#000'},{color:'#00f'}];
+     // Provide your access token
+      L.mapbox.accessToken = 'pk.eyJ1IjoiamF5d29uamFuZ2Nob2kiLCJhIjoiY2lwMDhlZ3ZnMDB4ZnZibTVxOWR0bHY5ZyJ9.lX6wRED-goZm85qTd9k_kA';
+      // Create a map in the div #map
+      map = L.mapbox.map('map', 'jaywonjangchoi.0a995gfn');
+      map.setView([viewLat, viewLng], 12);
+     //L.marker([37.9, -77], {
+    //icon: L.mapbox.marker.icon({
+     //   'marker-size': 'large',
+     //   'marker-symbol': 'bus',
+     //   'marker-color': '#fa0'
+   //})
+//}).addTo(map);
+
+  //polyline? ??? ? reload? ? ?? ????..
+  //setTimeout("location.reload()",60000);
+
+  </script>
+
+  </body>
+</html>
